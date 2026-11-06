@@ -1,0 +1,15 @@
+GLOBAL SOLUTION 2026/2 - CitizenTech
+Turma: 2ESOA - Engenharia de Software
+
+Nome do grupo: [PREENCHER]
+Projeto: Bairro Ativo - zeladoria colaborativa
+
+Integrantes:
+RM [PREENCHER] - [Nome completo]
+RM [PREENCHER] - [Nome completo]
+RM [PREENCHER] - [Nome completo]
+RM [PREENCHER] - [Nome completo]
+RM [PREENCHER] - [Nome completo]
+
+Link do vídeo pitch: [PREENCHER - link público do YouTube, Google Drive ou Vimeo]
+Repositório GitHub: [PREENCHER, se houver]

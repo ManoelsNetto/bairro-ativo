@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatórios · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="usuarios.html">Usuários</a></li>
+          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container">
+      <header class="cabecalho-pagina">
+        <h1>Relatórios</h1>
+        <p>Indicadores gerados por consultas SQL com JOIN e agregação direto no banco, para a comunidade e a prefeitura acompanharem o atendimento.</p>
+      </header>
+
+      <div id="mensagem" class="mensagem" aria-live="polite"></div>
+
+      <section class="secao" aria-labelledby="titulo-resumo">
+        <h2 id="titulo-resumo">Visão geral</h2>
+        <div class="indicadores" id="indicadores"><p class="carregando">Carregando…</p></div>
+      </section>
+
+      <section class="secao cartao" aria-labelledby="titulo-bairros">
+        <div class="secao__titulo">
+          <h2 id="titulo-bairros">Ocorrências por bairro</h2>
+          <div class="legenda"><span><i style="background:var(--ambar-500)"></i>Pendentes</span><span><i style="background:var(--verde-600)"></i>Resolvidas</span></div>
+        </div>
+        <div class="tabela-container">
+          <table class="tabela tabela--responsiva">
+            <thead><tr><th scope="col">Bairro</th><th scope="col">Zona</th><th scope="col" class="numero">Total</th><th scope="col" class="numero">Pendentes</th><th scope="col" class="numero">Resolvidas</th><th scope="col" class="numero">Apoios</th><th scope="col" class="numero">Tempo médio</th><th scope="col">Distribuição</th></tr></thead>
+            <tbody id="tabela-bairros"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="secao cartao" aria-labelledby="titulo-categorias">
+        <h2 id="titulo-categorias">Desempenho por categoria</h2>
+        <p class="dica">"Fora do prazo" conta as pendentes que já passaram do prazo da categoria.</p>
+        <div class="tabela-container">
+          <table class="tabela tabela--responsiva">
+            <thead><tr><th scope="col">Categoria</th><th scope="col" class="numero">Prazo</th><th scope="col" class="numero">Total</th><th scope="col" class="numero">Pendentes</th><th scope="col" class="numero">Fora do prazo</th><th scope="col" class="numero">Resolvidas no prazo</th></tr></thead>
+            <tbody id="tabela-categorias"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="grade-2">
+        <section class="cartao" aria-labelledby="titulo-ranking">
+          <h2 id="titulo-ranking">Fila de prioridade</h2>
+          <p class="dica">Pontuação = 3 × apoios + dias em aberto + 10 se estiver fora do prazo.</p>
+          <div class="tabela-container">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Ocorrência</th><th scope="col">Bairro</th><th scope="col" class="numero">Apoios</th><th scope="col" class="numero">Dias</th><th scope="col" class="numero">Pontos</th></tr></thead>
+              <tbody id="tabela-ranking"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cartao" aria-labelledby="titulo-engajamento">
+          <h2 id="titulo-engajamento">Cidadãos mais engajados</h2>
+          <p class="dica">Ocorrências registradas e apoios dados por cada morador.</p>
+          <div class="tabela-container">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Cidadão</th><th scope="col">Bairro</th><th scope="col" class="numero">Registros</th><th scope="col" class="numero">Apoios</th></tr></thead>
+              <tbody id="tabela-engajamento"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/relatorios.js"></script>
+</body>
+</html>

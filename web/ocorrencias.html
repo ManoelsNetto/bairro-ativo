@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ocorrências · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="usuarios.html">Usuários</a></li>
+          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container">
+      <header class="cabecalho-pagina">
+        <div class="cabecalho-pagina__linha">
+          <div>
+            <h1>Ocorrências</h1>
+            <p>Problemas do espaço público registrados pelos moradores. Filtre, apoie e acompanhe o atendimento.</p>
+          </div>
+          <button class="botao botao--destaque" type="button" id="botao-nova" aria-controls="secao-formulario" aria-expanded="false">Nova ocorrência</button>
+        </div>
+      </header>
+
+      <div id="mensagem" class="mensagem" aria-live="polite"></div>
+
+      <section class="secao cartao oculto" id="secao-formulario" aria-labelledby="titulo-formulario">
+        <h2 id="titulo-formulario">Registrar ocorrência</h2>
+        <form class="formulario" id="form-ocorrencia" novalidate>
+          <input type="hidden" name="id" id="ocorrencia-id">
+          <div class="campo">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" maxlength="100" placeholder="Ex.: Poste apagado na esquina" autocomplete="off">
+          </div>
+          <div class="campo">
+            <label for="descricao">O que está acontecendo?</label>
+            <textarea id="descricao" name="descricao" maxlength="1000" placeholder="Descreva o problema e como ele afeta quem passa por ali."></textarea>
+          </div>
+          <div class="formulario__linha">
+            <div class="campo">
+              <label for="endereco">Endereço</label>
+              <input type="text" id="endereco" name="endereco" maxlength="150" placeholder="Rua, número" autocomplete="street-address">
+            </div>
+            <div class="campo">
+              <label for="referencia">Ponto de referência <span class="opcional">(opcional)</span></label>
+              <input type="text" id="referencia" name="referencia" maxlength="150" placeholder="Ex.: em frente à escola">
+            </div>
+          </div>
+          <div class="formulario__linha formulario__linha--3">
+            <div class="campo">
+              <label for="idBairro">Bairro</label>
+              <select id="idBairro" name="idBairro"></select>
+            </div>
+            <div class="campo">
+              <label for="idCategoria">Categoria</label>
+              <select id="idCategoria" name="idCategoria"></select>
+            </div>
+            <div class="campo">
+              <label for="idAutor">Quem está registrando</label>
+              <select id="idAutor" name="idAutor"></select>
+            </div>
+          </div>
+          <div id="mensagem-form" class="mensagem" aria-live="polite"></div>
+          <div class="formulario__acoes">
+            <button class="botao botao--primario" type="submit" id="botao-salvar">Registrar ocorrência</button>
+            <button class="botao botao--secundario" type="button" id="botao-cancelar">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="secao" aria-labelledby="titulo-lista">
+        <h2 id="titulo-lista" class="visualmente-oculto">Lista de ocorrências</h2>
+        <form class="cartao filtros" id="form-filtros" role="search" aria-label="Filtrar ocorrências">
+          <div class="campo">
+            <label for="filtro-texto">Buscar</label>
+            <input type="search" id="filtro-texto" name="q" placeholder="Título, endereço ou descrição">
+          </div>
+          <div class="campo">
+            <label for="filtro-status">Status</label>
+            <select id="filtro-status" name="status"></select>
+          </div>
+          <div class="campo">
+            <label for="filtro-bairro">Bairro</label>
+            <select id="filtro-bairro" name="bairro"></select>
+          </div>
+          <div class="campo">
+            <label for="filtro-categoria">Categoria</label>
+            <select id="filtro-categoria" name="categoria"></select>
+          </div>
+        </form>
+        <p id="contagem" class="carregando" aria-live="polite"></p>
+        <ul class="lista-ocorrencias" id="lista"></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/ocorrencias.js"></script>
+</body>
+</html>

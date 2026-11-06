@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detalhe da ocorrência · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="usuarios.html">Usuários</a></li>
+          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container">
+      <header class="cabecalho-pagina">
+        <p class="trilha"><a href="ocorrencias.html">← Voltar para ocorrências</a></p>
+        <div class="detalhe__etiquetas" id="etiquetas"></div>
+        <h1 id="titulo">Carregando ocorrência…</h1>
+        <p id="subtitulo"></p>
+      </header>
+
+      <div id="mensagem" class="mensagem" aria-live="polite"></div>
+
+      <div class="grade-detalhe" id="conteudo-detalhe">
+        <div>
+          <section class="cartao" aria-labelledby="titulo-sobre">
+            <h2 id="titulo-sobre">Sobre o problema</h2>
+            <p id="descricao"></p>
+            <dl class="lista-info" id="info"></dl>
+          </section>
+
+          <section class="cartao" aria-labelledby="titulo-historico">
+            <h2 id="titulo-historico">Histórico de atendimento</h2>
+            <ol class="linha-tempo" id="historico"></ol>
+          </section>
+
+          <section class="cartao" id="secao-atendimento" aria-labelledby="titulo-atendimento">
+            <h2 id="titulo-atendimento">Atualizar atendimento</h2>
+            <p class="dica">Área do agente público: registre o andamento para o cidadão acompanhar.</p>
+            <form class="formulario" id="form-atualizacao" novalidate>
+              <div class="formulario__linha">
+                <div class="campo">
+                  <label for="idAgente">Agente responsável</label>
+                  <select id="idAgente" name="idAgente"></select>
+                </div>
+                <div class="campo">
+                  <label for="status">Novo status</label>
+                  <select id="status" name="status"></select>
+                </div>
+              </div>
+              <div class="campo">
+                <label for="comentario">Comentário para o cidadão</label>
+                <textarea id="comentario" name="comentario" maxlength="500" placeholder="Ex.: Equipe agendada para quinta-feira."></textarea>
+              </div>
+              <div id="mensagem-atualizacao" class="mensagem" aria-live="polite"></div>
+              <div class="formulario__acoes">
+                <button class="botao botao--primario" type="submit">Salvar atualização</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <aside>
+          <section class="cartao" aria-labelledby="titulo-apoio">
+            <h2 id="titulo-apoio">Apoios da vizinhança</h2>
+            <div class="contador-apoio">
+              <span class="contador-apoio__numero" id="total-apoios">0</span>
+              <span>pessoas disseram<br>"isso também me afeta"</span>
+            </div>
+            <form class="formulario" id="form-apoio" novalidate>
+              <div class="campo">
+                <label for="idCidadao">Apoiar como</label>
+                <select id="idCidadao" name="idCidadao"></select>
+              </div>
+              <div id="mensagem-apoio" class="mensagem" aria-live="polite"></div>
+              <button class="botao botao--destaque" type="submit">Apoiar esta ocorrência</button>
+            </form>
+            <h3 class="secao">Quem apoiou</h3>
+            <ul class="apoiadores" id="apoiadores"></ul>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/ocorrencia.js"></script>
+</body>
+</html>

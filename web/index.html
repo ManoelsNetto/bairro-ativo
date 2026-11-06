@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Início · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="usuarios.html">Usuários</a></li>
+          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" aria-labelledby="titulo-hero">
+      <div class="container hero__grade">
+        <div>
+          <h1 id="titulo-hero">Seu bairro melhora quando todo mundo enxerga o problema.</h1>
+          <p>Buraco, poste apagado, entulho na calçada: registre em menos de um minuto, junte o apoio dos vizinhos e acompanhe cada passo do atendimento pela prefeitura.</p>
+          <div class="hero__acoes">
+            <a class="botao botao--destaque" href="ocorrencias.html#nova">Registrar ocorrência</a>
+            <a class="botao botao--contorno-claro" href="ocorrencias.html">Ver ocorrências</a>
+          </div>
+        </div>
+        <div class="hero__ilustracao" aria-label="Como funciona">
+          <ol>
+            <li><span class="passo-num">1</span><div><strong>Registre</strong><span>Conte o que aconteceu, onde e em qual categoria.</span></div></li>
+            <li><span class="passo-num">2</span><div><strong>Apoie</strong><span>Vizinhos afetados apoiam e o problema sobe na fila de prioridade.</span></div></li>
+            <li><span class="passo-num">3</span><div><strong>Acompanhe</strong><span>O agente público atualiza o status e todo mundo vê o histórico.</span></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <section class="secao" aria-labelledby="titulo-numeros">
+        <h2 id="titulo-numeros" class="visualmente-oculto">Números da plataforma</h2>
+        <div id="mensagem" class="mensagem" aria-live="polite"></div>
+        <div class="indicadores" id="indicadores">
+          <p class="carregando">Carregando números…</p>
+        </div>
+      </section>
+
+      <section class="secao" aria-labelledby="titulo-prioridades">
+        <div class="secao__titulo">
+          <div>
+            <h2 id="titulo-prioridades">Prioridades do momento</h2>
+            <p>As ocorrências pendentes com mais apoio, mais tempo em aberto ou fora do prazo.</p>
+          </div>
+          <a class="botao botao--secundario botao--pequeno" href="relatorios.html">Ver relatórios</a>
+        </div>
+        <ul class="lista-ocorrencias" id="ranking">
+          <li class="carregando">Carregando…</li>
+        </ul>
+      </section>
+
+      <section class="secao" aria-labelledby="titulo-impacto">
+        <h2 id="titulo-impacto">Para quem é o Bairro Ativo</h2>
+        <ul class="passos">
+          <li>
+            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <h3>Moradores</h3>
+            <p>Um canal simples para mostrar o que precisa de conserto, sem fila de telefone e com transparência sobre o andamento.</p>
+          </li>
+          <li>
+            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <h3>Poder público</h3>
+            <p>Fila priorizada pela própria comunidade, prazo por categoria e relatórios por bairro para planejar equipes.</p>
+          </li>
+          <li>
+            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
+            <h3>A cidade toda</h3>
+            <p>Calçadas acessíveis, ruas iluminadas e bueiros limpos: espaços públicos mais seguros e inclusivos.</p>
+            <div class="ods" aria-label="Objetivos de Desenvolvimento Sustentável"><span>ODS 10</span><span>ODS 11</span></div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/inicio.js"></script>
+</body>
+</html>
