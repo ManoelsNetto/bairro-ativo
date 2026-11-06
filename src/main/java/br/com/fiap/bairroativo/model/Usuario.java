@@ -2,7 +2,10 @@ package br.com.fiap.bairroativo.model;
 
 import java.time.LocalDateTime;
 
-/** Pessoa cadastrada na plataforma. Cada subclasse define o que o perfil pode fazer. */
+/**
+ * Pessoa que usa a plataforma. Cidadão e servidor público herdam os dados comuns
+ * e cada um define, de forma polimórfica, o que pode fazer com uma ocorrência.
+ */
 public abstract class Usuario {
 
     private Long id;
@@ -24,11 +27,14 @@ public abstract class Usuario {
 
     public abstract TipoUsuario getTipo();
 
-    /** Cidadãos registram e apoiam ocorrências. */
-    public abstract boolean podeRegistrarOcorrencias();
+    /** Texto curto que aparece no topo da tela, ex.: "Cidadã(o) · Vila Mariana". */
+    public abstract String getDescricaoPerfil();
 
-    /** Agentes públicos mudam o status das ocorrências. */
-    public abstract boolean podeAtenderOcorrencias();
+    /** Pode corrigir ou excluir a ocorrência? */
+    public abstract boolean podeEditar(Ocorrencia ocorrencia);
+
+    /** Pode mudar o status da ocorrência? */
+    public abstract boolean podeAtender(Ocorrencia ocorrencia);
 
     public Long getId() {
         return id;

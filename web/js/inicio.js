@@ -1,16 +1,4 @@
-/* Página inicial: números gerais e fila de prioridade */
-
-function cartaoOcorrencia(o) {
-  return '<li class="ocorrencia">'
-    + '<div class="ocorrencia__topo">' + etiquetaStatus(o.status) + ' ' + etiquetaPrioridade(o) + '</div>'
-    + '<h3><a href="ocorrencia.html?id=' + o.id + '">' + esc(o.titulo) + '</a></h3>'
-    + '<p class="ocorrencia__meta">' + esc(o.bairro.nome) + ' · ' + esc(o.categoria.nome) + '</p>'
-    + '<p class="ocorrencia__numeros"><span><strong>' + o.totalApoios + '</strong> apoios</span>'
-    + '<span><strong>' + dias(o.diasEmAberto) + '</strong> em aberto</span></p>'
-    + '<div class="ocorrencia__acoes"><a class="botao botao--secundario botao--pequeno" href="ocorrencia.html?id='
-    + o.id + '">Ver e apoiar</a></div>'
-    + '</li>';
-}
+/* Página inicial: números gerais e prioridades do momento */
 
 async function carregarInicio() {
   try {
@@ -25,7 +13,7 @@ async function carregarInicio() {
       + valor + '</div><div class="indicador__rotulo">' + rotulo + '</div></div>').join('');
 
     document.getElementById('ranking').innerHTML = ranking.length
-      ? ranking.map(cartaoOcorrencia).join('')
+      ? ranking.map((o) => cartaoOcorrencia(o)).join('')
       : '<li class="vazio">Nenhuma ocorrência pendente. O bairro está em dia!</li>';
   } catch (e) {
     mostrarMensagem('mensagem', e.message, 'erro');

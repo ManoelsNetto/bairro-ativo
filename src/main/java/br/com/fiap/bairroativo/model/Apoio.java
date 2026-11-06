@@ -20,7 +20,7 @@ public class Apoio {
         this.data = data;
     }
 
-    @JsonIgnoreProperties({"email", "telefone", "dataCadastro"})
+    @JsonIgnoreProperties({"email", "telefone", "dataCadastro", "descricaoPerfil"})
     public Cidadao getCidadao() {
         return cidadao;
     }

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
+      </nav>
+    </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container">
+      <header class="cabecalho-pagina">
+        <h1>Entrar no Bairro Ativo</h1>
+        <p>Escolha como você vai usar a plataforma. Cada perfil tem a sua área.</p>
+      </header>
+
+      <p class="mensagem mensagem--info">Modo demonstração: entre só com o e-mail cadastrado, sem senha. Numa versão real, a identificação seria feita pelo gov.br.</p>
+      <div id="mensagem" class="mensagem" aria-live="polite"></div>
+
+      <div class="entrada secao">
+        <section class="cartao cartao-perfil" aria-labelledby="titulo-cidadao">
+          <div class="cartao-perfil__icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+          <h2 id="titulo-cidadao">Sou cidadão</h2>
+          <p>Registre problemas do seu bairro, apoie os dos vizinhos e acompanhe o atendimento.</p>
+          <form class="formulario" id="form-cidadao" novalidate>
+            <div class="campo">
+              <label for="email-cidadao">E-mail</label>
+              <input type="email" id="email-cidadao" name="email" autocomplete="email" placeholder="seu@email.com">
+            </div>
+            <div id="mensagem-cidadao" class="mensagem" aria-live="polite"></div>
+            <button class="botao botao--destaque" type="submit">Entrar como cidadão</button>
+          </form>
+          <div class="separador">ou</div>
+          <div class="formulario__acoes">
+            <button class="botao botao--secundario" type="button" id="exemplo-cidadao">Usar a cidadã de exemplo (Ana Souza)</button>
+            <button class="botao botao--secundario" type="button" id="botao-criar-conta" aria-expanded="false" aria-controls="form-cadastro">Criar minha conta</button>
+          </div>
+
+          <form class="formulario secao oculto" id="form-cadastro" novalidate aria-labelledby="titulo-cadastro">
+            <h3 id="titulo-cadastro">Criar conta de cidadão</h3>
+            <div class="campo">
+              <label for="cad-nome">Nome completo</label>
+              <input type="text" id="cad-nome" name="nome" maxlength="100" autocomplete="name">
+            </div>
+            <div class="campo">
+              <label for="cad-email">E-mail</label>
+              <input type="email" id="cad-email" name="email" maxlength="120" autocomplete="email">
+            </div>
+            <div class="formulario__linha">
+              <div class="campo">
+                <label for="cad-telefone">Telefone <span class="opcional">(opcional)</span></label>
+                <input type="tel" id="cad-telefone" name="telefone" maxlength="20" placeholder="(11) 91234-5678" autocomplete="tel">
+              </div>
+              <div class="campo">
+                <label for="cad-bairro">Bairro onde mora</label>
+                <select id="cad-bairro" name="idBairro"></select>
+              </div>
+            </div>
+            <div id="mensagem-cadastro" class="mensagem" aria-live="polite"></div>
+            <button class="botao botao--primario" type="submit">Criar conta e entrar</button>
+          </form>
+        </section>
+
+        <section class="cartao cartao-perfil cartao-perfil--servidor" aria-labelledby="titulo-servidor">
+          <div class="cartao-perfil__icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+          <h2 id="titulo-servidor">Sou servidor público</h2>
+          <p>Atenda a fila do seu órgão e mantenha os cadastros da plataforma. Contas criadas pela gestão.</p>
+          <form class="formulario" id="form-servidor" novalidate>
+            <div class="campo">
+              <label for="email-servidor">E-mail institucional</label>
+              <input type="email" id="email-servidor" name="email" autocomplete="email" placeholder="nome@prefeitura.sp.gov.br">
+            </div>
+            <div id="mensagem-servidor" class="mensagem" aria-live="polite"></div>
+            <button class="botao botao--primario" type="submit">Entrar como servidor</button>
+          </form>
+          <div class="separador">ou</div>
+          <button class="botao botao--secundario" type="button" id="exemplo-servidor">Usar a servidora de exemplo (Beatriz Nogueira)</button>
+        </section>
+      </div>
+
+      <section class="secao cartao" aria-labelledby="titulo-exemplos">
+        <h2 id="titulo-exemplos">Outras contas de exemplo</h2>
+        <p class="dica">Para testar o apoio entre vizinhos ou o atendimento por órgãos diferentes.</p>
+        <div class="grade-2">
+          <div><h3>Cidadãos</h3><ul class="contas-exemplo" id="exemplos-cidadao"></ul></div>
+          <div><h3>Servidores</h3><ul class="contas-exemplo" id="exemplos-servidor"></ul></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/entrar.js"></script>
+</body>
+</html>

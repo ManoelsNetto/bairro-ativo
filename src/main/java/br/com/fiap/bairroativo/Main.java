@@ -8,19 +8,27 @@ import br.com.fiap.bairroativo.dao.ApoioDAO;
 import br.com.fiap.bairroativo.dao.AtualizacaoDAO;
 import br.com.fiap.bairroativo.dao.BairroDAO;
 import br.com.fiap.bairroativo.dao.CategoriaDAO;
+import br.com.fiap.bairroativo.dao.CidadaoDAO;
 import br.com.fiap.bairroativo.dao.OcorrenciaDAO;
+import br.com.fiap.bairroativo.dao.OrgaoDAO;
 import br.com.fiap.bairroativo.dao.RelatorioDAO;
-import br.com.fiap.bairroativo.dao.UsuarioDAO;
+import br.com.fiap.bairroativo.dao.ServidorDAO;
 import br.com.fiap.bairroativo.resource.BairroResource;
 import br.com.fiap.bairroativo.resource.CategoriaResource;
+import br.com.fiap.bairroativo.resource.CidadaoResource;
 import br.com.fiap.bairroativo.resource.OcorrenciaResource;
+import br.com.fiap.bairroativo.resource.OrgaoResource;
 import br.com.fiap.bairroativo.resource.RelatorioResource;
-import br.com.fiap.bairroativo.resource.UsuarioResource;
+import br.com.fiap.bairroativo.resource.ServidorResource;
+import br.com.fiap.bairroativo.resource.SessaoResource;
 import br.com.fiap.bairroativo.service.BairroService;
 import br.com.fiap.bairroativo.service.CategoriaService;
+import br.com.fiap.bairroativo.service.CidadaoService;
 import br.com.fiap.bairroativo.service.OcorrenciaService;
+import br.com.fiap.bairroativo.service.OrgaoService;
 import br.com.fiap.bairroativo.service.RelatorioService;
-import br.com.fiap.bairroativo.service.UsuarioService;
+import br.com.fiap.bairroativo.service.ServidorService;
+import br.com.fiap.bairroativo.service.SessaoService;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -71,18 +79,23 @@ public class Main {
     /** Monta as camadas: DAO -> Service -> Resource. */
     static ResourceConfig configurar(ConnectionFactory conexoes) {
         BairroDAO bairroDAO = new BairroDAO(conexoes);
+        OrgaoDAO orgaoDAO = new OrgaoDAO(conexoes);
         CategoriaDAO categoriaDAO = new CategoriaDAO(conexoes);
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexoes);
+        CidadaoDAO cidadaoDAO = new CidadaoDAO(conexoes);
+        ServidorDAO servidorDAO = new ServidorDAO(conexoes);
 
-        UsuarioService usuarioService = new UsuarioService(usuarioDAO, bairroDAO);
+        SessaoService sessoes = new SessaoService(cidadaoDAO, servidorDAO);
         OcorrenciaService ocorrenciaService = new OcorrenciaService(new OcorrenciaDAO(conexoes),
-                new ApoioDAO(conexoes), new AtualizacaoDAO(conexoes), bairroDAO, categoriaDAO, usuarioService);
+                new ApoioDAO(conexoes), new AtualizacaoDAO(conexoes), bairroDAO, categoriaDAO, sessoes);
 
         return new ResourceConfig()
                 .property(ServerProperties.WADL_FEATURE_DISABLE, true)
-                .register(new BairroResource(new BairroService(bairroDAO)))
-                .register(new CategoriaResource(new CategoriaService(categoriaDAO)))
-                .register(new UsuarioResource(usuarioService))
+                .register(new SessaoResource(sessoes))
+                .register(new CidadaoResource(new CidadaoService(cidadaoDAO, bairroDAO), sessoes))
+                .register(new ServidorResource(new ServidorService(servidorDAO, orgaoDAO), sessoes))
+                .register(new BairroResource(new BairroService(bairroDAO), sessoes))
+                .register(new OrgaoResource(new OrgaoService(orgaoDAO), sessoes))
+                .register(new CategoriaResource(new CategoriaService(categoriaDAO, orgaoDAO), sessoes))
                 .register(new OcorrenciaResource(ocorrenciaService))
                 .register(new RelatorioResource(new RelatorioService(new RelatorioDAO(conexoes))))
                 .register(ErroHandler.class)

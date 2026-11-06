@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
-/** Registro de uma mudança de status feita por um agente público. */
+/** Registro de uma mudança de status feita por um servidor público. */
 public class Atualizacao {
 
     private Long id;
     private Long idOcorrencia;
-    private AgentePublico agente;
+    private ServidorPublico servidor;
     private StatusOcorrencia statusAnterior;
     private StatusOcorrencia statusNovo;
     private String comentario;
@@ -34,13 +34,14 @@ public class Atualizacao {
         this.idOcorrencia = idOcorrencia;
     }
 
-    @JsonIgnoreProperties({"email", "telefone", "matricula", "dataCadastro"})
-    public AgentePublico getAgente() {
-        return agente;
+    /** No histórico público aparecem só nome, cargo e órgão do servidor. */
+    @JsonIgnoreProperties({"email", "telefone", "matricula", "dataCadastro", "descricaoPerfil"})
+    public ServidorPublico getServidor() {
+        return servidor;
     }
 
-    public void setAgente(AgentePublico agente) {
-        this.agente = agente;
+    public void setServidor(ServidorPublico servidor) {
+        this.servidor = servidor;
     }
 
     public StatusOcorrencia getStatusAnterior() {

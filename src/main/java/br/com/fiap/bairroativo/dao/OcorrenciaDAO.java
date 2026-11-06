@@ -7,6 +7,7 @@ import br.com.fiap.bairroativo.model.Bairro;
 import br.com.fiap.bairroativo.model.Categoria;
 import br.com.fiap.bairroativo.model.Cidadao;
 import br.com.fiap.bairroativo.model.Ocorrencia;
+import br.com.fiap.bairroativo.model.Orgao;
 import br.com.fiap.bairroativo.model.StatusOcorrencia;
 import br.com.fiap.bairroativo.model.Zona;
 
@@ -26,12 +27,14 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
                    o.DT_ABERTURA, o.DT_RESOLUCAO,
                    b.ID_BAIRRO, b.NOME AS NOME_BAIRRO, b.ZONA, b.CIDADE,
                    c.ID_CATEGORIA, c.NOME AS NOME_CATEGORIA, c.DESCRICAO AS DESCRICAO_CATEGORIA, c.PRAZO_DIAS,
-                   u.ID_USUARIO, u.NOME AS NOME_AUTOR,
+                   g.ID_ORGAO, g.NOME AS NOME_ORGAO, g.SIGLA, g.TELEFONE AS TELEFONE_ORGAO,
+                   u.ID_CIDADAO, u.NOME AS NOME_AUTOR,
                    (SELECT COUNT(*) FROM BA_APOIO a WHERE a.ID_OCORRENCIA = o.ID_OCORRENCIA) AS TOTAL_APOIOS
               FROM BA_OCORRENCIA o
               JOIN BA_BAIRRO b ON b.ID_BAIRRO = o.ID_BAIRRO
               JOIN BA_CATEGORIA c ON c.ID_CATEGORIA = o.ID_CATEGORIA
-              JOIN BA_USUARIO u ON u.ID_USUARIO = o.ID_AUTOR
+              JOIN BA_ORGAO g ON g.ID_ORGAO = c.ID_ORGAO
+              JOIN BA_CIDADAO u ON u.ID_CIDADAO = o.ID_CIDADAO
             """;
 
     private final ConnectionFactory conexoes;
@@ -43,7 +46,7 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
     @Override
     public Ocorrencia inserir(Ocorrencia ocorrencia) {
         String sql = "INSERT INTO BA_OCORRENCIA (TITULO, DESCRICAO, ENDERECO, REFERENCIA, ID_BAIRRO, ID_CATEGORIA, "
-                + "ID_AUTOR, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "ID_CIDADAO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = conexoes.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID_OCORRENCIA"})) {
             ps.setString(1, ocorrencia.getTitulo());
@@ -64,7 +67,7 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
 
     @Override
     public List<Ocorrencia> listar() {
-        return listar(new FiltroOcorrencia(null, null, null, null, false));
+        return listar(FiltroOcorrencia.simples(null, null, null, null));
     }
 
     /** Listagem com filtros opcionais; a ordem padrão é das mais recentes para as mais antigas. */
@@ -85,6 +88,19 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
         if (filtro.idCategoria() != null) {
             sql.append(" AND o.ID_CATEGORIA = ?");
             parametros.add(filtro.idCategoria());
+        }
+        if (filtro.idAutor() != null) {
+            sql.append(" AND o.ID_CIDADAO = ?");
+            parametros.add(filtro.idAutor());
+        }
+        if (filtro.idApoiador() != null) {
+            sql.append(" AND EXISTS (SELECT 1 FROM BA_APOIO a WHERE a.ID_OCORRENCIA = o.ID_OCORRENCIA"
+                    + " AND a.ID_CIDADAO = ?)");
+            parametros.add(filtro.idApoiador());
+        }
+        if (filtro.idOrgao() != null) {
+            sql.append(" AND c.ID_ORGAO = ?");
+            parametros.add(filtro.idOrgao());
         }
         if (filtro.texto() != null && !filtro.texto().isBlank()) {
             sql.append(" AND (UPPER(o.TITULO) LIKE ? OR UPPER(o.ENDERECO) LIKE ? OR UPPER(o.DESCRICAO) LIKE ?)");
@@ -169,10 +185,12 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
         o.setDataResolucao(JdbcUtil.dataHora(rs, "DT_RESOLUCAO"));
         o.setBairro(new Bairro(rs.getLong("ID_BAIRRO"), rs.getString("NOME_BAIRRO"),
                 Zona.valueOf(rs.getString("ZONA")), rs.getString("CIDADE")));
+        Orgao orgao = new Orgao(rs.getLong("ID_ORGAO"), rs.getString("NOME_ORGAO"), rs.getString("SIGLA"),
+                rs.getString("TELEFONE_ORGAO"));
         o.setCategoria(new Categoria(rs.getLong("ID_CATEGORIA"), rs.getString("NOME_CATEGORIA"),
-                rs.getString("DESCRICAO_CATEGORIA"), rs.getInt("PRAZO_DIAS")));
+                rs.getString("DESCRICAO_CATEGORIA"), rs.getInt("PRAZO_DIAS"), orgao));
         Cidadao autor = new Cidadao();
-        autor.setId(rs.getLong("ID_USUARIO"));
+        autor.setId(rs.getLong("ID_CIDADAO"));
         autor.setNome(rs.getString("NOME_AUTOR"));
         o.setAutor(autor);
         o.setTotalApoios(rs.getInt("TOTAL_APOIOS"));

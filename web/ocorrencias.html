@@ -22,12 +22,14 @@
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="ocorrencias.html">Ocorrências</a></li>
-          <li><a href="usuarios.html">Usuários</a></li>
-          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
           <li><a href="relatorios.html">Relatórios</a></li>
         </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
       </nav>
     </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
   </header>
 
   <main id="conteudo">
@@ -36,57 +38,13 @@
         <div class="cabecalho-pagina__linha">
           <div>
             <h1>Ocorrências</h1>
-            <p>Problemas do espaço público registrados pelos moradores. Filtre, apoie e acompanhe o atendimento.</p>
+            <p>Tudo o que os moradores registraram, com o status do atendimento. Qualquer pessoa pode consultar.</p>
           </div>
-          <button class="botao botao--destaque" type="button" id="botao-nova" aria-controls="secao-formulario" aria-expanded="false">Nova ocorrência</button>
+          <a class="botao botao--destaque" href="cidadao.html#nova" id="botao-nova">Registrar ocorrência</a>
         </div>
       </header>
 
       <div id="mensagem" class="mensagem" aria-live="polite"></div>
-
-      <section class="secao cartao oculto" id="secao-formulario" aria-labelledby="titulo-formulario">
-        <h2 id="titulo-formulario">Registrar ocorrência</h2>
-        <form class="formulario" id="form-ocorrencia" novalidate>
-          <input type="hidden" name="id" id="ocorrencia-id">
-          <div class="campo">
-            <label for="titulo">Título</label>
-            <input type="text" id="titulo" name="titulo" maxlength="100" placeholder="Ex.: Poste apagado na esquina" autocomplete="off">
-          </div>
-          <div class="campo">
-            <label for="descricao">O que está acontecendo?</label>
-            <textarea id="descricao" name="descricao" maxlength="1000" placeholder="Descreva o problema e como ele afeta quem passa por ali."></textarea>
-          </div>
-          <div class="formulario__linha">
-            <div class="campo">
-              <label for="endereco">Endereço</label>
-              <input type="text" id="endereco" name="endereco" maxlength="150" placeholder="Rua, número" autocomplete="street-address">
-            </div>
-            <div class="campo">
-              <label for="referencia">Ponto de referência <span class="opcional">(opcional)</span></label>
-              <input type="text" id="referencia" name="referencia" maxlength="150" placeholder="Ex.: em frente à escola">
-            </div>
-          </div>
-          <div class="formulario__linha formulario__linha--3">
-            <div class="campo">
-              <label for="idBairro">Bairro</label>
-              <select id="idBairro" name="idBairro"></select>
-            </div>
-            <div class="campo">
-              <label for="idCategoria">Categoria</label>
-              <select id="idCategoria" name="idCategoria"></select>
-            </div>
-            <div class="campo">
-              <label for="idAutor">Quem está registrando</label>
-              <select id="idAutor" name="idAutor"></select>
-            </div>
-          </div>
-          <div id="mensagem-form" class="mensagem" aria-live="polite"></div>
-          <div class="formulario__acoes">
-            <button class="botao botao--primario" type="submit" id="botao-salvar">Registrar ocorrência</button>
-            <button class="botao botao--secundario" type="button" id="botao-cancelar">Cancelar</button>
-          </div>
-        </form>
-      </section>
 
       <section class="secao" aria-labelledby="titulo-lista">
         <h2 id="titulo-lista" class="visualmente-oculto">Lista de ocorrências</h2>

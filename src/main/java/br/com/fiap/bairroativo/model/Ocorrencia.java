@@ -124,7 +124,7 @@ public class Ocorrencia implements Priorizavel {
     }
 
     /** Na resposta pública só aparecem id e nome do autor (dados de contato ficam protegidos). */
-    @JsonIgnoreProperties({"email", "telefone", "bairro", "dataCadastro"})
+    @JsonIgnoreProperties({"email", "telefone", "bairro", "dataCadastro", "descricaoPerfil"})
     public Cidadao getAutor() {
         return autor;
     }

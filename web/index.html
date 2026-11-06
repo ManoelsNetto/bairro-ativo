@@ -22,12 +22,14 @@
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="ocorrencias.html">Ocorrências</a></li>
-          <li><a href="usuarios.html">Usuários</a></li>
-          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
           <li><a href="relatorios.html">Relatórios</a></li>
         </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
       </nav>
     </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
   </header>
 
   <main id="conteudo">
@@ -37,15 +39,15 @@
           <h1 id="titulo-hero">Seu bairro melhora quando todo mundo enxerga o problema.</h1>
           <p>Buraco, poste apagado, entulho na calçada: registre em menos de um minuto, junte o apoio dos vizinhos e acompanhe cada passo do atendimento pela prefeitura.</p>
           <div class="hero__acoes">
-            <a class="botao botao--destaque" href="ocorrencias.html#nova">Registrar ocorrência</a>
-            <a class="botao botao--contorno-claro" href="ocorrencias.html">Ver ocorrências</a>
+            <a class="botao botao--destaque" href="cidadao.html#nova">Sou cidadão: registrar ocorrência</a>
+            <a class="botao botao--contorno-claro" href="servidor.html">Sou servidor público</a>
           </div>
         </div>
         <div class="hero__ilustracao" aria-label="Como funciona">
           <ol>
             <li><span class="passo-num">1</span><div><strong>Registre</strong><span>Conte o que aconteceu, onde e em qual categoria.</span></div></li>
             <li><span class="passo-num">2</span><div><strong>Apoie</strong><span>Vizinhos afetados apoiam e o problema sobe na fila de prioridade.</span></div></li>
-            <li><span class="passo-num">3</span><div><strong>Acompanhe</strong><span>O agente público atualiza o status e todo mundo vê o histórico.</span></div></li>
+            <li><span class="passo-num">3</span><div><strong>Acompanhe</strong><span>O servidor do órgão responsável atualiza o status e todo mundo vê o histórico.</span></div></li>
           </ol>
         </div>
       </div>
@@ -73,26 +75,31 @@
         </ul>
       </section>
 
-      <section class="secao" aria-labelledby="titulo-impacto">
-        <h2 id="titulo-impacto">Para quem é o Bairro Ativo</h2>
-        <ul class="passos">
-          <li>
-            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-            <h3>Moradores</h3>
-            <p>Um canal simples para mostrar o que precisa de conserto, sem fila de telefone e com transparência sobre o andamento.</p>
+      <section class="secao" aria-labelledby="titulo-perfis">
+        <h2 id="titulo-perfis">Duas visões, uma plataforma</h2>
+        <ul class="perfis">
+          <li class="cartao cartao-perfil">
+            <div class="cartao-perfil__icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+            <h3>Cidadão</h3>
+            <ul>
+              <li>Registra problemas do espaço público</li>
+              <li>Apoia ocorrências de vizinhos ("isso também me afeta")</li>
+              <li>Acompanha o andamento e o histórico</li>
+            </ul>
+            <a class="botao botao--destaque botao--pequeno" href="cidadao.html">Ir para a Área do cidadão</a>
           </li>
-          <li>
-            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
-            <h3>Poder público</h3>
-            <p>Fila priorizada pela própria comunidade, prazo por categoria e relatórios por bairro para planejar equipes.</p>
-          </li>
-          <li>
-            <div class="icone" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
-            <h3>A cidade toda</h3>
-            <p>Calçadas acessíveis, ruas iluminadas e bueiros limpos: espaços públicos mais seguros e inclusivos.</p>
-            <div class="ods" aria-label="Objetivos de Desenvolvimento Sustentável"><span>ODS 10</span><span>ODS 11</span></div>
+          <li class="cartao cartao-perfil cartao-perfil--servidor">
+            <div class="cartao-perfil__icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+            <h3>Servidor público</h3>
+            <ul>
+              <li>Vê a fila do seu órgão, já ordenada por prioridade</li>
+              <li>Atualiza o status com um comentário para o cidadão</li>
+              <li>Mantém bairros, categorias, órgãos e equipe</li>
+            </ul>
+            <a class="botao botao--primario botao--pequeno" href="servidor.html">Ir para a Área do servidor</a>
           </li>
         </ul>
+        <div class="ods secao" aria-label="Objetivos de Desenvolvimento Sustentável"><span>ODS 10 · Redução das desigualdades</span><span>ODS 11 · Cidades e comunidades sustentáveis</span></div>
       </section>
     </div>
   </main>

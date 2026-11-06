@@ -1,86 +1,34 @@
 // Diagrama entidade-relacionamento - Bairro Ativo (notação pé de galinha)
 // Gerar: dot -Tpng -Gdpi=150 diagrama-er.dot -o diagrama-er.png
 digraph ER {
-  graph [label="Bairro Ativo - Diagrama Entidade-Relacionamento (Oracle)", labelloc=t, fontsize=20, fontname="Helvetica", rankdir=LR, nodesep=0.6, ranksep=1.3, pad=0.3];
+  graph [label="Bairro Ativo - Diagrama Entidade-Relacionamento (Oracle)", labelloc=t, fontsize=20, fontname="Helvetica", rankdir=LR, nodesep=0.5, ranksep=1.2, pad=0.3];
   node [shape=plain, fontname="Helvetica", fontsize=11];
   edge [fontname="Helvetica", fontsize=10, color="#45524d", dir=both];
-
-  BA_BAIRRO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a">
-    <tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_BAIRRO</b></font></td></tr>
-    <tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_BAIRRO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr>
-    <tr><td align="left">UK</td><td align="left">NOME</td><td align="left">VARCHAR2(80) NOT NULL</td></tr>
-    <tr><td align="left">CK</td><td align="left">ZONA</td><td align="left">VARCHAR2(10) NOT NULL</td></tr>
-    <tr><td align="left">UK</td><td align="left">CIDADE</td><td align="left">VARCHAR2(60) NOT NULL</td></tr>
-  </table>>];
-
-  BA_CATEGORIA [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a">
-    <tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_CATEGORIA</b></font></td></tr>
-    <tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_CATEGORIA</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr>
-    <tr><td align="left">UK</td><td align="left">NOME</td><td align="left">VARCHAR2(60) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">DESCRICAO</td><td align="left">VARCHAR2(200)</td></tr>
-    <tr><td align="left">CK</td><td align="left">PRAZO_DIAS</td><td align="left">NUMBER(3) NOT NULL (1-365)</td></tr>
-  </table>>];
-
-  BA_USUARIO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a">
-    <tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_USUARIO</b></font></td></tr>
-    <tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_USUARIO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr>
-    <tr><td align="left">CK</td><td align="left">TIPO</td><td align="left">VARCHAR2(10) NOT NULL (CIDADAO|AGENTE)</td></tr>
-    <tr><td align="left"></td><td align="left">NOME</td><td align="left">VARCHAR2(100) NOT NULL</td></tr>
-    <tr><td align="left">UK</td><td align="left">EMAIL</td><td align="left">VARCHAR2(120) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">TELEFONE</td><td align="left">VARCHAR2(20)</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_BAIRRO</td><td align="left">NUMBER(10) (cidadão)</td></tr>
-    <tr><td align="left"></td><td align="left">ORGAO</td><td align="left">VARCHAR2(80) (agente)</td></tr>
-    <tr><td align="left">UK</td><td align="left">MATRICULA</td><td align="left">VARCHAR2(20) (agente)</td></tr>
-    <tr><td align="left"></td><td align="left">DT_CADASTRO</td><td align="left">DATE NOT NULL</td></tr>
-  </table>>];
-
-  BA_OCORRENCIA [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a">
-    <tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_OCORRENCIA</b></font></td></tr>
-    <tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_OCORRENCIA</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr>
-    <tr><td align="left"></td><td align="left">TITULO</td><td align="left">VARCHAR2(100) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">DESCRICAO</td><td align="left">VARCHAR2(1000) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">ENDERECO</td><td align="left">VARCHAR2(150) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">REFERENCIA</td><td align="left">VARCHAR2(150)</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_BAIRRO</td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_CATEGORIA</td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_AUTOR</td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left">CK</td><td align="left">STATUS</td><td align="left">VARCHAR2(15) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">DT_ABERTURA</td><td align="left">DATE NOT NULL</td></tr>
-    <tr><td align="left">CK</td><td align="left">DT_RESOLUCAO</td><td align="left">DATE (&gt;= abertura)</td></tr>
-  </table>>];
-
-  BA_APOIO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#b45309">
-    <tr><td bgcolor="#f2a541" colspan="3"><b>BA_APOIO</b><br/><font point-size="9">tabela associativa N:N</font></td></tr>
-    <tr><td align="left"><b>PK FK</b></td><td align="left"><b><u>ID_USUARIO</u></b></td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"><b>PK FK</b></td><td align="left"><b><u>ID_OCORRENCIA</u></b></td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">DT_APOIO</td><td align="left">DATE NOT NULL</td></tr>
-  </table>>];
-
-  BA_ATUALIZACAO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a">
-    <tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_ATUALIZACAO</b></font></td></tr>
-    <tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_ATUALIZACAO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_OCORRENCIA</td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"><b>FK</b></td><td align="left">ID_AGENTE</td><td align="left">NUMBER(10) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">STATUS_ANTERIOR</td><td align="left">VARCHAR2(15) NOT NULL</td></tr>
-    <tr><td align="left">CK</td><td align="left">STATUS_NOVO</td><td align="left">VARCHAR2(15) NOT NULL (&lt;&gt; anterior)</td></tr>
-    <tr><td align="left"></td><td align="left">COMENTARIO</td><td align="left">VARCHAR2(500) NOT NULL</td></tr>
-    <tr><td align="left"></td><td align="left">DT_ATUALIZACAO</td><td align="left">DATE NOT NULL</td></tr>
-  </table>>];
+  BA_BAIRRO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a"><tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_BAIRRO</b></font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_BAIRRO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"><b>UK</b></td><td align="left">NOME</td><td align="left">VARCHAR2(80) NOT NULL</td></tr><tr><td align="left"><b>CK</b></td><td align="left">ZONA</td><td align="left">VARCHAR2(10) NOT NULL</td></tr><tr><td align="left"><b>UK</b></td><td align="left">CIDADE</td><td align="left">VARCHAR2(60) NOT NULL</td></tr></table>>];
+  BA_ORGAO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a"><tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_ORGAO</b></font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_ORGAO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"><b>UK</b></td><td align="left">NOME</td><td align="left">VARCHAR2(80) NOT NULL</td></tr><tr><td align="left"><b>UK</b></td><td align="left">SIGLA</td><td align="left">VARCHAR2(10) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">TELEFONE</td><td align="left">VARCHAR2(20)</td></tr></table>>];
+  BA_CATEGORIA [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a"><tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_CATEGORIA</b></font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_CATEGORIA</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"><b>UK</b></td><td align="left">NOME</td><td align="left">VARCHAR2(60) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DESCRICAO</td><td align="left">VARCHAR2(200)</td></tr><tr><td align="left"><b>CK</b></td><td align="left">PRAZO_DIAS</td><td align="left">NUMBER(3) NOT NULL (1-365)</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_ORGAO</td><td align="left">NUMBER(10) NOT NULL</td></tr></table>>];
+  BA_CIDADAO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#b45309"><tr><td bgcolor="#f2a541" colspan="3"><font color="#1b2421"><b>BA_CIDADAO</b></font><br/><font point-size="9" color="#1b2421">perfil cidadão</font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_CIDADAO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"> </td><td align="left">NOME</td><td align="left">VARCHAR2(100) NOT NULL</td></tr><tr><td align="left"><b>UK</b></td><td align="left">EMAIL</td><td align="left">VARCHAR2(120) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">TELEFONE</td><td align="left">VARCHAR2(20)</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_BAIRRO</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DT_CADASTRO</td><td align="left">DATE NOT NULL</td></tr></table>>];
+  BA_SERVIDOR [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#1d4ed8"><tr><td bgcolor="#1d4ed8" colspan="3"><font color="white"><b>BA_SERVIDOR</b></font><br/><font point-size="9" color="white">perfil servidor público</font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_SERVIDOR</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"> </td><td align="left">NOME</td><td align="left">VARCHAR2(100) NOT NULL</td></tr><tr><td align="left"><b>UK</b></td><td align="left">EMAIL</td><td align="left">VARCHAR2(120) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">TELEFONE</td><td align="left">VARCHAR2(20)</td></tr><tr><td align="left"><b>UK</b></td><td align="left">MATRICULA</td><td align="left">VARCHAR2(20) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">CARGO</td><td align="left">VARCHAR2(60) NOT NULL</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_ORGAO</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DT_CADASTRO</td><td align="left">DATE NOT NULL</td></tr></table>>];
+  BA_OCORRENCIA [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a"><tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_OCORRENCIA</b></font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_OCORRENCIA</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"> </td><td align="left">TITULO</td><td align="left">VARCHAR2(100) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DESCRICAO</td><td align="left">VARCHAR2(1000) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">ENDERECO</td><td align="left">VARCHAR2(150) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">REFERENCIA</td><td align="left">VARCHAR2(150)</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_BAIRRO</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_CATEGORIA</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_CIDADAO</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"><b>CK</b></td><td align="left">STATUS</td><td align="left">VARCHAR2(15) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DT_ABERTURA</td><td align="left">DATE NOT NULL</td></tr><tr><td align="left"><b>CK</b></td><td align="left">DT_RESOLUCAO</td><td align="left">DATE (&gt;= abertura)</td></tr></table>>];
+  BA_APOIO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#b45309"><tr><td bgcolor="#f2a541" colspan="3"><font color="#1b2421"><b>BA_APOIO</b></font><br/><font point-size="9" color="#1b2421">tabela associativa N:N</font></td></tr><tr><td align="left"><b>PK FK</b></td><td align="left"><b><u>ID_CIDADAO</u></b></td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"><b>PK FK</b></td><td align="left"><b><u>ID_OCORRENCIA</u></b></td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DT_APOIO</td><td align="left">DATE NOT NULL</td></tr></table>>];
+  BA_ATUALIZACAO [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#0f5c4a"><tr><td bgcolor="#0f5c4a" colspan="3"><font color="white"><b>BA_ATUALIZACAO</b></font></td></tr><tr><td align="left"><b>PK</b></td><td align="left"><b><u>ID_ATUALIZACAO</u></b></td><td align="left">NUMBER(10) IDENTITY</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_OCORRENCIA</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"><b>FK</b></td><td align="left">ID_SERVIDOR</td><td align="left">NUMBER(10) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">STATUS_ANTERIOR</td><td align="left">VARCHAR2(15) NOT NULL</td></tr><tr><td align="left"><b>CK</b></td><td align="left">STATUS_NOVO</td><td align="left">VARCHAR2(15) NOT NULL (&lt;&gt; anterior)</td></tr><tr><td align="left"> </td><td align="left">COMENTARIO</td><td align="left">VARCHAR2(500) NOT NULL</td></tr><tr><td align="left"> </td><td align="left">DT_ATUALIZACAO</td><td align="left">DATE NOT NULL</td></tr></table>>];
 
   // arrowtail = lado da tabela pai (1), arrowhead = lado da filha (N)
-  BA_BAIRRO -> BA_USUARIO      [arrowtail=teeodot, arrowhead=crowodot, label="mora em\n0..1 : 0..N"];
-  BA_BAIRRO -> BA_OCORRENCIA   [arrowtail=teetee, arrowhead=crowodot, label="localiza\n1 : 0..N"];
-  BA_CATEGORIA -> BA_OCORRENCIA [arrowtail=teetee, arrowhead=crowodot, label="classifica\n1 : 0..N"];
-  BA_USUARIO -> BA_OCORRENCIA  [arrowtail=teetee, arrowhead=crowodot, label="registra (cidadão)\n1 : 0..N"];
-  BA_USUARIO -> BA_APOIO       [arrowtail=teetee, arrowhead=crowodot, label="apoia\n1 : 0..N"];
-  BA_OCORRENCIA -> BA_APOIO    [arrowtail=teetee, arrowhead=crowodot, label="recebe\n1 : 0..N"];
+  BA_BAIRRO -> BA_CIDADAO        [arrowtail=teetee, arrowhead=crowodot, label="mora em\n1 : 0..N"];
+  BA_BAIRRO -> BA_OCORRENCIA     [arrowtail=teetee, arrowhead=crowodot, label="localiza\n1 : 0..N"];
+  BA_ORGAO -> BA_CATEGORIA       [arrowtail=teetee, arrowhead=crowodot, label="responde por\n1 : 0..N"];
+  BA_ORGAO -> BA_SERVIDOR        [arrowtail=teetee, arrowhead=crowodot, label="lota\n1 : 0..N"];
+  BA_CATEGORIA -> BA_OCORRENCIA  [arrowtail=teetee, arrowhead=crowodot, label="classifica\n1 : 0..N"];
+  BA_CIDADAO -> BA_OCORRENCIA    [arrowtail=teetee, arrowhead=crowodot, label="registra\n1 : 0..N"];
+  BA_CIDADAO -> BA_APOIO         [arrowtail=teetee, arrowhead=crowodot, label="apoia\n1 : 0..N"];
+  BA_OCORRENCIA -> BA_APOIO      [arrowtail=teetee, arrowhead=crowodot, label="recebe\n1 : 0..N"];
   BA_OCORRENCIA -> BA_ATUALIZACAO [arrowtail=teetee, arrowhead=crowodot, label="tem histórico\n1 : 0..N"];
-  BA_USUARIO -> BA_ATUALIZACAO [arrowtail=teetee, arrowhead=crowodot, label="atende (agente)\n1 : 0..N"];
+  BA_SERVIDOR -> BA_ATUALIZACAO  [arrowtail=teetee, arrowhead=crowodot, label="atende\n1 : 0..N"];
 
   legenda [label=<<table border="0" cellborder="0" cellspacing="0" cellpadding="2">
     <tr><td align="left"><b>Legenda</b></td></tr>
     <tr><td align="left">PK chave primária · FK chave estrangeira · UK UNIQUE · CK CHECK</td></tr>
-    <tr><td align="left">BA_USUARIO x BA_OCORRENCIA via BA_APOIO = relacionamento N:N</td></tr>
+    <tr><td align="left">BA_CIDADAO x BA_OCORRENCIA via BA_APOIO = relacionamento N:N</td></tr>
     <tr><td align="left">BA_APOIO e BA_ATUALIZACAO: ON DELETE CASCADE a partir da ocorrência</td></tr>
   </table>>];
 }

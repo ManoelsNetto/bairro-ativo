@@ -4,6 +4,7 @@ import br.com.fiap.bairroativo.dao.RelatorioDAO;
 import br.com.fiap.bairroativo.dto.EngajamentoDTO;
 import br.com.fiap.bairroativo.dto.RelatorioBairroDTO;
 import br.com.fiap.bairroativo.dto.RelatorioCategoriaDTO;
+import br.com.fiap.bairroativo.dto.RelatorioOrgaoDTO;
 import br.com.fiap.bairroativo.dto.ResumoDTO;
 import br.com.fiap.bairroativo.exception.ValidacaoException;
 
@@ -27,6 +28,10 @@ public class RelatorioService {
 
     public List<RelatorioCategoriaDTO> porCategoria() {
         return dao.porCategoria();
+    }
+
+    public List<RelatorioOrgaoDTO> porOrgao() {
+        return dao.porOrgao();
     }
 
     public List<EngajamentoDTO> engajamento(int limite) {

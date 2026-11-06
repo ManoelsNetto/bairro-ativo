@@ -24,7 +24,7 @@ public class ApoioDAO {
     }
 
     public void inserir(long idCidadao, long idOcorrencia) {
-        String sql = "INSERT INTO BA_APOIO (ID_USUARIO, ID_OCORRENCIA) VALUES (?, ?)";
+        String sql = "INSERT INTO BA_APOIO (ID_CIDADAO, ID_OCORRENCIA) VALUES (?, ?)";
         try (Connection conn = conexoes.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, idCidadao);
@@ -36,7 +36,7 @@ public class ApoioDAO {
     }
 
     public boolean excluir(long idCidadao, long idOcorrencia) {
-        String sql = "DELETE FROM BA_APOIO WHERE ID_USUARIO = ? AND ID_OCORRENCIA = ?";
+        String sql = "DELETE FROM BA_APOIO WHERE ID_CIDADAO = ? AND ID_OCORRENCIA = ?";
         try (Connection conn = conexoes.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, idCidadao);
@@ -49,10 +49,10 @@ public class ApoioDAO {
 
     public List<Apoio> listarPorOcorrencia(long idOcorrencia) {
         String sql = """
-                SELECT a.ID_OCORRENCIA, a.DT_APOIO, u.ID_USUARIO, u.NOME,
+                SELECT a.ID_OCORRENCIA, a.DT_APOIO, u.ID_CIDADAO, u.NOME,
                        b.ID_BAIRRO, b.NOME AS NOME_BAIRRO, b.ZONA, b.CIDADE
                   FROM BA_APOIO a
-                  JOIN BA_USUARIO u ON u.ID_USUARIO = a.ID_USUARIO
+                  JOIN BA_CIDADAO u ON u.ID_CIDADAO = a.ID_CIDADAO
                   JOIN BA_BAIRRO b ON b.ID_BAIRRO = u.ID_BAIRRO
                  WHERE a.ID_OCORRENCIA = ?
                  ORDER BY a.DT_APOIO DESC
@@ -65,7 +65,7 @@ public class ApoioDAO {
                 while (rs.next()) {
                     Bairro bairro = new Bairro(rs.getLong("ID_BAIRRO"), rs.getString("NOME_BAIRRO"),
                             Zona.valueOf(rs.getString("ZONA")), rs.getString("CIDADE"));
-                    Cidadao cidadao = new Cidadao(rs.getLong("ID_USUARIO"), rs.getString("NOME"), null, null,
+                    Cidadao cidadao = new Cidadao(rs.getLong("ID_CIDADAO"), rs.getString("NOME"), null, null,
                             null, bairro);
                     apoios.add(new Apoio(cidadao, rs.getLong("ID_OCORRENCIA"), JdbcUtil.dataHora(rs, "DT_APOIO")));
                 }

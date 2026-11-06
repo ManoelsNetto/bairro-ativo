@@ -16,6 +16,56 @@ const PRIORIDADE = { ALTA: 'Prioridade alta', MEDIA: 'Prioridade média', BAIXA:
 
 const ZONAS = { CENTRO: 'Centro', NORTE: 'Norte', SUL: 'Sul', LESTE: 'Leste', OESTE: 'Oeste' };
 
+/* ---------- Sessão (quem está usando a plataforma) ----------
+   Guardada no navegador depois de "Entrar". Cada requisição envia o perfil e o id
+   nos cabeçalhos X-Perfil e X-Usuario; o backend confere as permissões. */
+
+const CHAVE_SESSAO = 'bairroAtivo.sessao';
+
+function obterSessao() {
+  try {
+    const texto = localStorage.getItem(CHAVE_SESSAO);
+    return texto ? JSON.parse(texto) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function salvarSessao(usuario) {
+  const sessao = { perfil: usuario.tipo, id: usuario.id, nome: usuario.nome, descricao: usuario.descricaoPerfil };
+  try {
+    localStorage.setItem(CHAVE_SESSAO, JSON.stringify(sessao));
+  } catch (e) {
+    /* navegador sem armazenamento: a sessão vale só nesta página */
+  }
+  window._sessaoMemoria = sessao;
+  return sessao;
+}
+
+function encerrarSessao() {
+  try {
+    localStorage.removeItem(CHAVE_SESSAO);
+  } catch (e) {
+    /* ignora */
+  }
+  window._sessaoMemoria = null;
+}
+
+function sessaoAtual() {
+  return obterSessao() || window._sessaoMemoria || null;
+}
+
+/** Usado pelas áreas restritas: sem o perfil certo, manda para a tela Entrar e volta depois. */
+function exigirPerfil(perfil) {
+  const sessao = sessaoAtual();
+  if (!sessao || sessao.perfil !== perfil) {
+    const volta = encodeURIComponent(location.pathname.split('/').pop() + location.search + location.hash);
+    location.replace('entrar.html?perfil=' + perfil + '&volta=' + volta + (sessao ? '&trocar=1' : ''));
+    return null;
+  }
+  return sessao;
+}
+
 /**
  * Chama a API e devolve o JSON. Em caso de erro lança Error com a mensagem
  * vinda do backend (ou uma mensagem amigável se o servidor não responder).
@@ -23,9 +73,15 @@ const ZONAS = { CENTRO: 'Centro', NORTE: 'Norte', SUL: 'Sul', LESTE: 'Leste', OE
 async function api(caminho, { metodo = 'GET', corpo } = {}) {
   let resposta;
   try {
+    const cabecalhos = corpo !== undefined ? { 'Content-Type': 'application/json' } : {};
+    const sessao = sessaoAtual();
+    if (sessao) {
+      cabecalhos['X-Perfil'] = sessao.perfil;
+      cabecalhos['X-Usuario'] = String(sessao.id);
+    }
     resposta = await fetch(API + caminho, {
       method: metodo,
-      headers: corpo !== undefined ? { 'Content-Type': 'application/json' } : {},
+      headers: cabecalhos,
       body: corpo !== undefined ? JSON.stringify(corpo) : undefined
     });
   } catch (e) {
@@ -39,6 +95,9 @@ async function api(caminho, { metodo = 'GET', corpo } = {}) {
     dados = null;
   }
   if (!resposta.ok) {
+    if (resposta.status === 401 && sessaoAtual() && dados && /Sessão inválida|Entre na plataforma/.test(dados.mensagem)) {
+      encerrarSessao();
+    }
     throw new Error((dados && dados.mensagem) || 'Erro inesperado (' + resposta.status + ').');
   }
   return dados;
@@ -191,16 +250,53 @@ async function comBotaoOcupado(botao, textoOcupado, acao) {
   }
 }
 
-/* ---------- Menu (igual em todas as páginas) ---------- */
+/* ---------- Topo: menu (igual em todas as páginas) e perfil conectado ---------- */
+
+function iniciais(nome) {
+  const partes = String(nome || '?').trim().split(/\s+/);
+  return (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : '')).toUpperCase();
+}
+
+function desenharPerfil() {
+  const area = document.getElementById('perfil-topo');
+  const faixa = document.getElementById('faixa-perfil');
+  const sessao = sessaoAtual();
+  if (!area) return;
+  if (!sessao) {
+    area.innerHTML = '<a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a>';
+    if (faixa) faixa.classList.add('oculto');
+    return;
+  }
+  const cidadao = sessao.perfil === 'CIDADAO';
+  const destino = cidadao ? 'cidadao.html' : 'servidor.html';
+  area.innerHTML = '<a class="perfil-chip' + (cidadao ? '' : ' perfil-chip--servidor') + '" href="' + destino + '">'
+    + '<span class="perfil-chip__avatar" aria-hidden="true">' + esc(iniciais(sessao.nome)) + '</span>'
+    + '<span class="perfil-chip__texto">' + esc(sessao.nome) + '<small>' + esc(sessao.descricao || '') + '</small></span></a>'
+    + '<button class="botao-sair" type="button" id="botao-sair">Sair</button>';
+  document.getElementById('botao-sair').addEventListener('click', () => {
+    encerrarSessao();
+    location.href = 'index.html';
+  });
+  if (faixa) {
+    faixa.className = 'faixa-perfil faixa-perfil--' + (cidadao ? 'cidadao' : 'servidor');
+    faixa.innerHTML = cidadao
+      ? 'Você está usando como <strong>cidadão</strong>. <a href="cidadao.html">Ir para a Área do cidadão</a>'
+      : 'Você está usando como <strong>servidor público</strong>' + (sessao.descricao ? ' · ' + esc(sessao.descricao.replace(/^Servidor público · /, '')) : '')
+        + '. <a href="servidor.html">Ir para a fila de atendimento</a>';
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const pagina = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.menu a').forEach((link) => {
     const destino = link.getAttribute('href');
-    if (destino === pagina || (pagina === 'ocorrencia.html' && destino === 'ocorrencias.html')) {
+    const mesmaArea = (pagina === 'ocorrencia.html' && destino === 'ocorrencias.html')
+      || (pagina === 'gestao.html' && destino === 'servidor.html');
+    if (destino === pagina || mesmaArea) {
       link.setAttribute('aria-current', 'page');
     }
   });
+  desenharPerfil();
 
   const botao = document.querySelector('.menu-botao');
   const menu = document.getElementById('menu-principal');
@@ -211,3 +307,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+/* ---------- Cartão de ocorrência (listas) ---------- */
+
+function cartaoOcorrencia(o, acoesExtras = '') {
+  return '<li class="ocorrencia">'
+    + '<div class="ocorrencia__topo">' + etiquetaStatus(o.status) + ' ' + etiquetaPrioridade(o) + '</div>'
+    + '<h3><a href="ocorrencia.html?id=' + o.id + '">' + esc(o.titulo) + '</a></h3>'
+    + '<p class="ocorrencia__meta">' + esc(o.endereco) + ' · ' + esc(o.bairro.nome) + '<br>'
+    + esc(o.categoria.nome) + ' · aberta em ' + formatarData(o.dataAbertura) + '</p>'
+    + '<p class="ocorrencia__numeros"><span><strong>' + o.totalApoios + '</strong> apoios</span>'
+    + (o.pendente ? '<span><strong>' + dias(o.diasEmAberto) + '</strong> em aberto</span>'
+      : o.dataResolucao ? '<span>resolvida em <strong>' + dias(o.diasEmAberto) + '</strong></span>' : '')
+    + '</p>'
+    + '<div class="ocorrencia__acoes"><a class="botao botao--secundario botao--pequeno" href="ocorrencia.html?id='
+    + o.id + '">Ver detalhes</a>' + acoesExtras + '</div></li>';
+}

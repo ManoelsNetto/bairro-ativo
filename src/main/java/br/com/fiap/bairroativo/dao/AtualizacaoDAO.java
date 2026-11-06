@@ -3,8 +3,9 @@ package br.com.fiap.bairroativo.dao;
 import br.com.fiap.bairroativo.config.ConnectionFactory;
 import br.com.fiap.bairroativo.exception.DadosException;
 import br.com.fiap.bairroativo.exception.RegraNegocioException;
-import br.com.fiap.bairroativo.model.AgentePublico;
 import br.com.fiap.bairroativo.model.Atualizacao;
+import br.com.fiap.bairroativo.model.Orgao;
+import br.com.fiap.bairroativo.model.ServidorPublico;
 import br.com.fiap.bairroativo.model.StatusOcorrencia;
 
 import java.sql.Connection;
@@ -26,12 +27,12 @@ public class AtualizacaoDAO {
 
     /**
      * Muda o status da ocorrência e grava o histórico na mesma transação: ou as duas coisas acontecem, ou nenhuma.
-     * O UPDATE confere o status anterior para não sobrescrever uma mudança feita por outro agente ao mesmo tempo.
+     * O UPDATE confere o status anterior para não sobrescrever uma mudança feita por outro servidor ao mesmo tempo.
      */
     public Atualizacao registrar(Atualizacao atualizacao, LocalDateTime dataResolucao) {
         String sqlStatus = "UPDATE BA_OCORRENCIA SET STATUS = ?, DT_RESOLUCAO = ? "
                 + "WHERE ID_OCORRENCIA = ? AND STATUS = ?";
-        String sqlHistorico = "INSERT INTO BA_ATUALIZACAO (ID_OCORRENCIA, ID_AGENTE, STATUS_ANTERIOR, STATUS_NOVO, "
+        String sqlHistorico = "INSERT INTO BA_ATUALIZACAO (ID_OCORRENCIA, ID_SERVIDOR, STATUS_ANTERIOR, STATUS_NOVO, "
                 + "COMENTARIO) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = conexoes.getConnection()) {
             conn.setAutoCommit(false);
@@ -47,7 +48,7 @@ public class AtualizacaoDAO {
                             "O status desta ocorrência foi alterado por outra pessoa. Recarregue a página.");
                 }
                 historico.setLong(1, atualizacao.getIdOcorrencia());
-                historico.setLong(2, atualizacao.getAgente().getId());
+                historico.setLong(2, atualizacao.getServidor().getId());
                 historico.setString(3, atualizacao.getStatusAnterior().name());
                 historico.setString(4, atualizacao.getStatusNovo().name());
                 historico.setString(5, atualizacao.getComentario());
@@ -70,9 +71,11 @@ public class AtualizacaoDAO {
     public List<Atualizacao> listarPorOcorrencia(long idOcorrencia) {
         String sql = """
                 SELECT t.ID_ATUALIZACAO, t.ID_OCORRENCIA, t.STATUS_ANTERIOR, t.STATUS_NOVO, t.COMENTARIO,
-                       t.DT_ATUALIZACAO, u.ID_USUARIO, u.NOME, u.ORGAO
+                       t.DT_ATUALIZACAO, s.ID_SERVIDOR, s.NOME, s.CARGO,
+                       g.ID_ORGAO, g.NOME AS NOME_ORGAO, g.SIGLA
                   FROM BA_ATUALIZACAO t
-                  JOIN BA_USUARIO u ON u.ID_USUARIO = t.ID_AGENTE
+                  JOIN BA_SERVIDOR s ON s.ID_SERVIDOR = t.ID_SERVIDOR
+                  JOIN BA_ORGAO g ON g.ID_ORGAO = s.ID_ORGAO
                  WHERE t.ID_OCORRENCIA = ?
                  ORDER BY t.DT_ATUALIZACAO, t.ID_ATUALIZACAO
                 """;
@@ -89,8 +92,10 @@ public class AtualizacaoDAO {
                     a.setStatusNovo(StatusOcorrencia.valueOf(rs.getString("STATUS_NOVO")));
                     a.setComentario(rs.getString("COMENTARIO"));
                     a.setData(JdbcUtil.dataHora(rs, "DT_ATUALIZACAO"));
-                    a.setAgente(new AgentePublico(rs.getLong("ID_USUARIO"), rs.getString("NOME"), null, null, null,
-                            rs.getString("ORGAO"), null));
+                    Orgao orgao = new Orgao(rs.getLong("ID_ORGAO"), rs.getString("NOME_ORGAO"),
+                            rs.getString("SIGLA"), null);
+                    a.setServidor(new ServidorPublico(rs.getLong("ID_SERVIDOR"), rs.getString("NOME"), null, null,
+                            null, null, rs.getString("CARGO"), orgao));
                     lista.add(a);
                 }
                 return lista;

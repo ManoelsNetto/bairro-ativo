@@ -22,18 +22,20 @@
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="ocorrencias.html">Ocorrências</a></li>
-          <li><a href="usuarios.html">Usuários</a></li>
-          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
           <li><a href="relatorios.html">Relatórios</a></li>
         </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
       </nav>
     </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
   </header>
 
   <main id="conteudo">
     <div class="container">
       <header class="cabecalho-pagina">
-        <p class="trilha"><a href="ocorrencias.html">← Voltar para ocorrências</a></p>
+        <p class="trilha"><a href="ocorrencias.html" id="link-voltar">← Voltar para ocorrências</a></p>
         <div class="detalhe__etiquetas" id="etiquetas"></div>
         <h1 id="titulo">Carregando ocorrência…</h1>
         <p id="subtitulo"></p>
@@ -54,19 +56,13 @@
             <ol class="linha-tempo" id="historico"></ol>
           </section>
 
-          <section class="cartao" id="secao-atendimento" aria-labelledby="titulo-atendimento">
+          <section class="cartao oculto" id="secao-atendimento" aria-labelledby="titulo-atendimento">
             <h2 id="titulo-atendimento">Atualizar atendimento</h2>
-            <p class="dica">Área do agente público: registre o andamento para o cidadão acompanhar.</p>
+            <p class="dica" id="atendendo-como"></p>
             <form class="formulario" id="form-atualizacao" novalidate>
-              <div class="formulario__linha">
-                <div class="campo">
-                  <label for="idAgente">Agente responsável</label>
-                  <select id="idAgente" name="idAgente"></select>
-                </div>
-                <div class="campo">
-                  <label for="status">Novo status</label>
-                  <select id="status" name="status"></select>
-                </div>
+              <div class="campo">
+                <label for="status">Novo status</label>
+                <select id="status" name="status"></select>
               </div>
               <div class="campo">
                 <label for="comentario">Comentário para o cidadão</label>
@@ -87,16 +83,19 @@
               <span class="contador-apoio__numero" id="total-apoios">0</span>
               <span>pessoas disseram<br>"isso também me afeta"</span>
             </div>
-            <form class="formulario" id="form-apoio" novalidate>
-              <div class="campo">
-                <label for="idCidadao">Apoiar como</label>
-                <select id="idCidadao" name="idCidadao"></select>
-              </div>
-              <div id="mensagem-apoio" class="mensagem" aria-live="polite"></div>
-              <button class="botao botao--destaque" type="submit">Apoiar esta ocorrência</button>
-            </form>
-            <h3 class="secao">Quem apoiou</h3>
+            <div class="caixa-acao" id="area-apoio"></div>
+            <div id="mensagem-apoio" class="mensagem secao" aria-live="polite"></div>
+            <h3>Quem apoiou</h3>
             <ul class="apoiadores" id="apoiadores"></ul>
+          </section>
+
+          <section class="cartao oculto" id="area-autor" aria-labelledby="titulo-autor">
+            <h2 id="titulo-autor">Você registrou esta ocorrência</h2>
+            <p class="dica">Enquanto ela estiver Aberta, você pode corrigir ou excluir.</p>
+            <div class="formulario__acoes">
+              <a class="botao botao--secundario" id="link-editar" href="#">Editar</a>
+              <button class="botao botao--perigo" type="button" id="botao-excluir">Excluir</button>
+            </div>
           </section>
         </aside>
       </div>

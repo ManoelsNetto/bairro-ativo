@@ -36,13 +36,13 @@ public class DadosException extends AppException {
 
     private static String mensagemVinculo(String mensagemOracle) {
         String msg = mensagemOracle == null ? "" : mensagemOracle.toUpperCase();
-        if (msg.contains("FK_BA_OCORRENCIA_AUTOR")) {
+        if (msg.contains("FK_BA_OCORRENCIA_CIDADAO")) {
             return "Não é possível excluir: este cidadão registrou ocorrências.";
         }
-        if (msg.contains("FK_BA_ATUALIZACAO_AGENTE")) {
-            return "Não é possível excluir: este agente já atendeu ocorrências e faz parte do histórico.";
+        if (msg.contains("FK_BA_ATUALIZACAO_SERVIDOR")) {
+            return "Não é possível excluir: este servidor já atendeu ocorrências e faz parte do histórico.";
         }
-        if (msg.contains("FK_BA_USUARIO_BAIRRO")) {
+        if (msg.contains("FK_BA_CIDADAO_BAIRRO")) {
             return "Não é possível excluir: há moradores cadastrados neste bairro.";
         }
         if (msg.contains("FK_BA_OCORRENCIA_BAIRRO")) {
@@ -51,16 +51,25 @@ public class DadosException extends AppException {
         if (msg.contains("FK_BA_OCORRENCIA_CATEGORIA")) {
             return "Não é possível excluir: há ocorrências nesta categoria.";
         }
+        if (msg.contains("FK_BA_CATEGORIA_ORGAO")) {
+            return "Não é possível excluir: este órgão é responsável por categorias.";
+        }
+        if (msg.contains("FK_BA_SERVIDOR_ORGAO")) {
+            return "Não é possível excluir: há servidores lotados neste órgão.";
+        }
         return "Não é possível excluir: existem registros vinculados a este item.";
     }
 
     private static String mensagemUnica(String mensagemOracle) {
         String msg = mensagemOracle == null ? "" : mensagemOracle.toUpperCase();
-        if (msg.contains("UK_BA_USUARIO_EMAIL")) {
-            return "Já existe um usuário com este e-mail.";
+        if (msg.contains("UK_BA_CIDADAO_EMAIL")) {
+            return "Já existe um cidadão cadastrado com este e-mail.";
         }
-        if (msg.contains("UK_BA_USUARIO_MATRICULA")) {
-            return "Já existe um agente com esta matrícula.";
+        if (msg.contains("UK_BA_SERVIDOR_EMAIL")) {
+            return "Já existe um servidor cadastrado com este e-mail.";
+        }
+        if (msg.contains("UK_BA_SERVIDOR_MATRICULA")) {
+            return "Já existe um servidor com esta matrícula.";
         }
         if (msg.contains("UK_BA_BAIRRO_NOME")) {
             return "Já existe um bairro com este nome nesta cidade.";
@@ -68,8 +77,14 @@ public class DadosException extends AppException {
         if (msg.contains("UK_BA_CATEGORIA_NOME")) {
             return "Já existe uma categoria com este nome.";
         }
+        if (msg.contains("UK_BA_ORGAO_NOME")) {
+            return "Já existe um órgão com este nome.";
+        }
+        if (msg.contains("UK_BA_ORGAO_SIGLA")) {
+            return "Já existe um órgão com esta sigla.";
+        }
         if (msg.contains("PK_BA_APOIO")) {
-            return "Este cidadão já apoiou esta ocorrência.";
+            return "Você já apoia esta ocorrência.";
         }
         return "Registro duplicado: já existe um cadastro com estes dados.";
     }

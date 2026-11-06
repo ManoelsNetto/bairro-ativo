@@ -22,12 +22,14 @@
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="ocorrencias.html">Ocorrências</a></li>
-          <li><a href="usuarios.html">Usuários</a></li>
-          <li><a href="cadastros.html">Bairros e categorias</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
           <li><a href="relatorios.html">Relatórios</a></li>
         </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
       </nav>
     </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
   </header>
 
   <main id="conteudo">
@@ -62,8 +64,18 @@
         <p class="dica">"Fora do prazo" conta as pendentes que já passaram do prazo da categoria.</p>
         <div class="tabela-container">
           <table class="tabela tabela--responsiva">
-            <thead><tr><th scope="col">Categoria</th><th scope="col" class="numero">Prazo</th><th scope="col" class="numero">Total</th><th scope="col" class="numero">Pendentes</th><th scope="col" class="numero">Fora do prazo</th><th scope="col" class="numero">Resolvidas no prazo</th></tr></thead>
+            <thead><tr><th scope="col">Categoria</th><th scope="col">Órgão</th><th scope="col" class="numero">Prazo</th><th scope="col" class="numero">Total</th><th scope="col" class="numero">Pendentes</th><th scope="col" class="numero">Fora do prazo</th><th scope="col" class="numero">Resolvidas no prazo</th></tr></thead>
             <tbody id="tabela-categorias"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="secao cartao" aria-labelledby="titulo-orgaos">
+        <h2 id="titulo-orgaos">Fila por órgão responsável</h2>
+        <div class="tabela-container">
+          <table class="tabela tabela--responsiva">
+            <thead><tr><th scope="col">Órgão</th><th scope="col" class="numero">Pendentes</th><th scope="col" class="numero">Fora do prazo</th><th scope="col" class="numero">Resolvidas</th><th scope="col" class="numero">Tempo médio</th></tr></thead>
+            <tbody id="tabela-orgaos"></tbody>
           </table>
         </div>
       </section>

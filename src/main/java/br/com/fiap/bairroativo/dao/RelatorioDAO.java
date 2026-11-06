@@ -4,6 +4,7 @@ import br.com.fiap.bairroativo.config.ConnectionFactory;
 import br.com.fiap.bairroativo.dto.EngajamentoDTO;
 import br.com.fiap.bairroativo.dto.RelatorioBairroDTO;
 import br.com.fiap.bairroativo.dto.RelatorioCategoriaDTO;
+import br.com.fiap.bairroativo.dto.RelatorioOrgaoDTO;
 import br.com.fiap.bairroativo.dto.ResumoDTO;
 import br.com.fiap.bairroativo.exception.DadosException;
 
@@ -29,7 +30,7 @@ public class RelatorioDAO {
         String sql = """
                 SELECT r.*,
                        (SELECT COUNT(*) FROM BA_APOIO) AS APOIOS,
-                       (SELECT COUNT(*) FROM BA_USUARIO WHERE TIPO = 'CIDADAO') AS CIDADAOS
+                       (SELECT COUNT(*) FROM BA_CIDADAO) AS CIDADAOS
                   FROM (SELECT COUNT(*) AS TOTAL,
                                NVL(SUM(CASE WHEN %1$s THEN 1 ELSE 0 END), 0) AS PENDENTES,
                                NVL(SUM(CASE WHEN o.STATUS = 'RESOLVIDA' THEN 1 ELSE 0 END), 0) AS RESOLVIDAS,
@@ -84,7 +85,7 @@ public class RelatorioDAO {
 
     public List<RelatorioCategoriaDTO> porCategoria() {
         String sql = """
-                SELECT c.ID_CATEGORIA, c.NOME, c.PRAZO_DIAS,
+                SELECT c.ID_CATEGORIA, c.NOME, g.SIGLA, c.PRAZO_DIAS,
                        COUNT(o.ID_OCORRENCIA) AS TOTAL,
                        SUM(CASE WHEN o.STATUS IN ('ABERTA', 'EM_ANALISE', 'EM_ANDAMENTO') THEN 1 ELSE 0 END)
                          AS PENDENTES,
@@ -95,8 +96,9 @@ public class RelatorioDAO {
                          AS NO_PRAZO,
                        SUM(CASE WHEN o.STATUS = 'RESOLVIDA' THEN 1 ELSE 0 END) AS RESOLVIDAS
                   FROM BA_CATEGORIA c
+                  JOIN BA_ORGAO g ON g.ID_ORGAO = c.ID_ORGAO
                   LEFT JOIN BA_OCORRENCIA o ON o.ID_CATEGORIA = c.ID_CATEGORIA
-                 GROUP BY c.ID_CATEGORIA, c.NOME, c.PRAZO_DIAS
+                 GROUP BY c.ID_CATEGORIA, c.NOME, g.SIGLA, c.PRAZO_DIAS
                  ORDER BY TOTAL DESC, c.NOME
                 """;
         try (Connection conn = conexoes.getConnection();
@@ -105,7 +107,7 @@ public class RelatorioDAO {
             List<RelatorioCategoriaDTO> linhas = new ArrayList<>();
             while (rs.next()) {
                 linhas.add(new RelatorioCategoriaDTO(rs.getLong("ID_CATEGORIA"), rs.getString("NOME"),
-                        rs.getInt("PRAZO_DIAS"), rs.getInt("TOTAL"), rs.getInt("PENDENTES"),
+                        rs.getString("SIGLA"), rs.getInt("PRAZO_DIAS"), rs.getInt("TOTAL"), rs.getInt("PENDENTES"),
                         rs.getInt("ATRASADAS"), rs.getInt("NO_PRAZO"), rs.getInt("RESOLVIDAS")));
             }
             return linhas;
@@ -117,14 +119,13 @@ public class RelatorioDAO {
     public List<EngajamentoDTO> engajamento(int limite) {
         String sql = """
                 SELECT * FROM (
-                    SELECT u.ID_USUARIO, u.NOME, b.NOME AS BAIRRO,
-                           (SELECT COUNT(*) FROM BA_OCORRENCIA o WHERE o.ID_AUTOR = u.ID_USUARIO) AS REGISTRADAS,
+                    SELECT u.ID_CIDADAO, u.NOME, b.NOME AS BAIRRO,
+                           (SELECT COUNT(*) FROM BA_OCORRENCIA o WHERE o.ID_CIDADAO = u.ID_CIDADAO) AS REGISTRADAS,
                            COUNT(a.ID_OCORRENCIA) AS APOIOS
-                      FROM BA_USUARIO u
+                      FROM BA_CIDADAO u
                       JOIN BA_BAIRRO b ON b.ID_BAIRRO = u.ID_BAIRRO
-                      LEFT JOIN BA_APOIO a ON a.ID_USUARIO = u.ID_USUARIO
-                     WHERE u.TIPO = 'CIDADAO'
-                     GROUP BY u.ID_USUARIO, u.NOME, b.NOME)
+                      LEFT JOIN BA_APOIO a ON a.ID_CIDADAO = u.ID_CIDADAO
+                     GROUP BY u.ID_CIDADAO, u.NOME, b.NOME)
                  ORDER BY REGISTRADAS + APOIOS DESC, NOME
                  FETCH FIRST ? ROWS ONLY
                 """;
@@ -134,13 +135,45 @@ public class RelatorioDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 List<EngajamentoDTO> linhas = new ArrayList<>();
                 while (rs.next()) {
-                    linhas.add(new EngajamentoDTO(rs.getLong("ID_USUARIO"), rs.getString("NOME"),
+                    linhas.add(new EngajamentoDTO(rs.getLong("ID_CIDADAO"), rs.getString("NOME"),
                             rs.getString("BAIRRO"), rs.getInt("REGISTRADAS"), rs.getInt("APOIOS")));
                 }
                 return linhas;
             }
         } catch (SQLException e) {
             throw DadosException.de("gerar relatório de engajamento", e);
+        }
+    }
+
+    /** Fila de cada órgão: pendências, atrasos e tempo médio de resolução. */
+    public List<RelatorioOrgaoDTO> porOrgao() {
+        String sql = """
+                SELECT g.ID_ORGAO, g.NOME, g.SIGLA,
+                       NVL(SUM(CASE WHEN o.STATUS IN ('ABERTA', 'EM_ANALISE', 'EM_ANDAMENTO') THEN 1 ELSE 0 END), 0)
+                         AS PENDENTES,
+                       NVL(SUM(CASE WHEN o.STATUS IN ('ABERTA', 'EM_ANALISE', 'EM_ANDAMENTO')
+                                     AND TRUNC(SYSDATE - o.DT_ABERTURA) > c.PRAZO_DIAS THEN 1 ELSE 0 END), 0)
+                         AS ATRASADAS,
+                       NVL(SUM(CASE WHEN o.STATUS = 'RESOLVIDA' THEN 1 ELSE 0 END), 0) AS RESOLVIDAS,
+                       ROUND(AVG(o.DT_RESOLUCAO - o.DT_ABERTURA), 1) AS DIAS_MEDIOS
+                  FROM BA_ORGAO g
+                  LEFT JOIN BA_CATEGORIA c ON c.ID_ORGAO = g.ID_ORGAO
+                  LEFT JOIN BA_OCORRENCIA o ON o.ID_CATEGORIA = c.ID_CATEGORIA
+                 GROUP BY g.ID_ORGAO, g.NOME, g.SIGLA
+                 ORDER BY PENDENTES DESC, g.NOME
+                """;
+        try (Connection conn = conexoes.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            List<RelatorioOrgaoDTO> linhas = new ArrayList<>();
+            while (rs.next()) {
+                linhas.add(new RelatorioOrgaoDTO(rs.getLong("ID_ORGAO"), rs.getString("NOME"), rs.getString("SIGLA"),
+                        rs.getInt("PENDENTES"), rs.getInt("ATRASADAS"), rs.getInt("RESOLVIDAS"),
+                        JdbcUtil.doubleOuNull(rs, "DIAS_MEDIOS")));
+            }
+            return linhas;
+        } catch (SQLException e) {
+            throw DadosException.de("gerar relatório por órgão", e);
         }
     }
 

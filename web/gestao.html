@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestão de cadastros · Bairro Ativo</title>
+  <meta name="description" content="Bairro Ativo: zeladoria colaborativa. Moradores registram e apoiam problemas do espaço público e acompanham o atendimento.">
+  <meta name="theme-color" content="#0b3d31">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html" aria-label="Bairro Ativo - página inicial">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2C12.3 2 6 8.1 6 15.7 6 26 20 38 20 38s14-12 14-22.3C34 8.1 27.7 2 20 2z" fill="#f2a541"/><path d="M13 17.5 20 11l7 6.5V26h-5v-5h-4v5h-5z" fill="#0b3d31"/></svg>
+        <span>Bairro Ativo</span>
+      </a>
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+      <nav class="menu" id="menu-principal" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="ocorrencias.html">Ocorrências</a></li>
+          <li><a href="cidadao.html">Área do cidadão</a></li>
+          <li><a href="servidor.html">Área do servidor</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+        <div class="perfil-topo" id="perfil-topo"><a class="botao botao--destaque botao--pequeno" href="entrar.html">Entrar</a></div>
+      </nav>
+    </div>
+    <div class="faixa-perfil oculto" id="faixa-perfil" role="status"></div>
+  </header>
+
+  <main id="conteudo">
+    <div class="container">
+      <header class="cabecalho-pagina">
+        <h1>Gestão de cadastros</h1>
+        <p>Área restrita aos servidores públicos: bairros atendidos, órgãos, categorias de problema, equipe e cidadãos cadastrados.</p>
+        <nav class="sub-navegacao" aria-label="Área do servidor">
+          <a class="botao botao--secundario botao--pequeno" href="servidor.html">Fila de atendimento</a>
+          <a class="botao botao--primario botao--pequeno" href="gestao.html" aria-current="page">Gestão de cadastros</a>
+        </nav>
+      </header>
+
+      <div class="grade-2">
+        <section class="cartao" aria-labelledby="titulo-bairros">
+          <h2 id="titulo-bairros">Bairros</h2>
+          <form class="formulario" id="form-bairro" novalidate>
+            <input type="hidden" name="id">
+            <div class="campo">
+              <label for="bairro-nome">Nome do bairro</label>
+              <input type="text" id="bairro-nome" name="nome" maxlength="80">
+            </div>
+            <div class="formulario__linha">
+              <div class="campo">
+                <label for="bairro-zona">Zona</label>
+                <select id="bairro-zona" name="zona"></select>
+              </div>
+              <div class="campo">
+                <label for="bairro-cidade">Cidade</label>
+                <input type="text" id="bairro-cidade" name="cidade" maxlength="60" value="São Paulo">
+              </div>
+            </div>
+            <div id="mensagem-bairro" class="mensagem" aria-live="polite"></div>
+            <div class="formulario__acoes">
+              <button class="botao botao--primario" type="submit">Cadastrar bairro</button>
+              <button class="botao botao--secundario oculto" type="button" data-cancelar>Cancelar edição</button>
+            </div>
+          </form>
+          <div class="tabela-container secao">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Bairro</th><th scope="col">Zona</th><th scope="col">Cidade</th><th scope="col"><span class="visualmente-oculto">Ações</span></th></tr></thead>
+              <tbody id="lista-bairros"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cartao" aria-labelledby="titulo-orgaos">
+          <h2 id="titulo-orgaos">Órgãos</h2>
+          <form class="formulario" id="form-orgao" novalidate>
+            <input type="hidden" name="id">
+            <div class="campo">
+              <label for="orgao-nome">Nome do órgão</label>
+              <input type="text" id="orgao-nome" name="nome" maxlength="80">
+            </div>
+            <div class="formulario__linha">
+              <div class="campo">
+                <label for="orgao-sigla">Sigla</label>
+                <input type="text" id="orgao-sigla" name="sigla" maxlength="10">
+              </div>
+              <div class="campo">
+                <label for="orgao-telefone">Telefone <span class="opcional">(opcional)</span></label>
+                <input type="tel" id="orgao-telefone" name="telefone" maxlength="20">
+              </div>
+            </div>
+            <div id="mensagem-orgao" class="mensagem" aria-live="polite"></div>
+            <div class="formulario__acoes">
+              <button class="botao botao--primario" type="submit">Cadastrar órgão</button>
+              <button class="botao botao--secundario oculto" type="button" data-cancelar>Cancelar edição</button>
+            </div>
+          </form>
+          <div class="tabela-container secao">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Órgão</th><th scope="col">Sigla</th><th scope="col">Telefone</th><th scope="col"><span class="visualmente-oculto">Ações</span></th></tr></thead>
+              <tbody id="lista-orgaos"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cartao" aria-labelledby="titulo-categorias">
+          <h2 id="titulo-categorias">Categorias</h2>
+          <form class="formulario" id="form-categoria" novalidate>
+            <input type="hidden" name="id">
+            <div class="formulario__linha">
+              <div class="campo">
+                <label for="categoria-nome">Nome da categoria</label>
+                <input type="text" id="categoria-nome" name="nome" maxlength="60">
+              </div>
+              <div class="campo">
+                <label for="categoria-prazo">Prazo (dias)</label>
+                <input type="number" id="categoria-prazo" name="prazoDias" min="1" max="365" inputmode="numeric">
+              </div>
+            </div>
+            <div class="campo">
+              <label for="categoria-orgao">Órgão responsável</label>
+              <select id="categoria-orgao" name="idOrgao"></select>
+            </div>
+            <div class="campo">
+              <label for="categoria-descricao">Descrição <span class="opcional">(opcional)</span></label>
+              <input type="text" id="categoria-descricao" name="descricao" maxlength="200">
+            </div>
+            <div id="mensagem-categoria" class="mensagem" aria-live="polite"></div>
+            <div class="formulario__acoes">
+              <button class="botao botao--primario" type="submit">Cadastrar categoria</button>
+              <button class="botao botao--secundario oculto" type="button" data-cancelar>Cancelar edição</button>
+            </div>
+          </form>
+          <div class="tabela-container secao">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Categoria</th><th scope="col">Órgão</th><th scope="col" class="numero">Prazo</th><th scope="col"><span class="visualmente-oculto">Ações</span></th></tr></thead>
+              <tbody id="lista-categorias"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cartao" aria-labelledby="titulo-servidores">
+          <h2 id="titulo-servidores">Servidores</h2>
+          <form class="formulario" id="form-servidor" novalidate>
+            <input type="hidden" name="id">
+            <div class="campo">
+              <label for="servidor-nome">Nome completo</label>
+              <input type="text" id="servidor-nome" name="nome" maxlength="100">
+            </div>
+            <div class="formulario__linha">
+              <div class="campo">
+                <label for="servidor-email">E-mail institucional</label>
+                <input type="email" id="servidor-email" name="email" maxlength="120">
+              </div>
+              <div class="campo">
+                <label for="servidor-telefone">Telefone <span class="opcional">(opcional)</span></label>
+                <input type="tel" id="servidor-telefone" name="telefone" maxlength="20">
+              </div>
+            </div>
+            <div class="formulario__linha formulario__linha--3">
+              <div class="campo">
+                <label for="servidor-matricula">Matrícula</label>
+                <input type="text" id="servidor-matricula" name="matricula" maxlength="20">
+              </div>
+              <div class="campo">
+                <label for="servidor-cargo">Cargo</label>
+                <input type="text" id="servidor-cargo" name="cargo" maxlength="60">
+              </div>
+              <div class="campo">
+                <label for="servidor-orgao">Órgão</label>
+                <select id="servidor-orgao" name="idOrgao"></select>
+              </div>
+            </div>
+            <div id="mensagem-servidor" class="mensagem" aria-live="polite"></div>
+            <div class="formulario__acoes">
+              <button class="botao botao--primario" type="submit">Cadastrar servidor</button>
+              <button class="botao botao--secundario oculto" type="button" data-cancelar>Cancelar edição</button>
+            </div>
+          </form>
+          <div class="tabela-container secao">
+            <table class="tabela tabela--responsiva">
+              <thead><tr><th scope="col">Servidor</th><th scope="col">Órgão</th><th scope="col">Contato</th><th scope="col"><span class="visualmente-oculto">Ações</span></th></tr></thead>
+              <tbody id="lista-servidores"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="secao cartao" aria-labelledby="titulo-cidadaos">
+        <h2 id="titulo-cidadaos">Cidadãos cadastrados</h2>
+        <p class="dica">Cada cidadão cria e mantém o próprio cadastro. Os contatos só aparecem aqui, para a equipe da prefeitura.</p>
+        <div class="tabela-container">
+          <table class="tabela tabela--responsiva">
+            <thead><tr><th scope="col">Nome</th><th scope="col">Bairro</th><th scope="col">Contato</th><th scope="col">Cadastro</th></tr></thead>
+            <tbody id="lista-cidadaos"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <p>Bairro Ativo · Zeladoria colaborativa · FIAP Global Solution 2026/2 · CitizenTech</p>
+      <p>Contribui com os ODS 10 e 11 da Agenda 2030 da ONU</p>
+    </div>
+  </footer>
+
+  <script src="js/comum.js"></script>
+  <script src="js/gestao.js"></script>
+</body>
+</html>

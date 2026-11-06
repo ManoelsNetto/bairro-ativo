@@ -2,6 +2,7 @@ package br.com.fiap.bairroativo.model;
 
 import java.time.LocalDateTime;
 
+/** Morador que registra e apoia ocorrências. */
 public class Cidadao extends Usuario {
 
     private Bairro bairro;
@@ -20,12 +21,20 @@ public class Cidadao extends Usuario {
     }
 
     @Override
-    public boolean podeRegistrarOcorrencias() {
-        return true;
+    public String getDescricaoPerfil() {
+        return "Cidadão" + (bairro != null && bairro.getNome() != null ? " · " + bairro.getNome() : "");
+    }
+
+    /** Só quem registrou edita, e só enquanto ninguém começou a analisar. */
+    @Override
+    public boolean podeEditar(Ocorrencia ocorrencia) {
+        return ocorrencia.getAutor() != null && getId() != null
+                && getId().equals(ocorrencia.getAutor().getId())
+                && ocorrencia.getStatus() == StatusOcorrencia.ABERTA;
     }
 
     @Override
-    public boolean podeAtenderOcorrencias() {
+    public boolean podeAtender(Ocorrencia ocorrencia) {
         return false;
     }
 

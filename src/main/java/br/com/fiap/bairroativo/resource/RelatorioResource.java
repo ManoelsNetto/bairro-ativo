@@ -3,6 +3,7 @@ package br.com.fiap.bairroativo.resource;
 import br.com.fiap.bairroativo.dto.EngajamentoDTO;
 import br.com.fiap.bairroativo.dto.RelatorioBairroDTO;
 import br.com.fiap.bairroativo.dto.RelatorioCategoriaDTO;
+import br.com.fiap.bairroativo.dto.RelatorioOrgaoDTO;
 import br.com.fiap.bairroativo.dto.ResumoDTO;
 import br.com.fiap.bairroativo.service.RelatorioService;
 import jakarta.ws.rs.DefaultValue;
@@ -42,6 +43,12 @@ public class RelatorioResource {
     @Path("relatorios/categorias")
     public List<RelatorioCategoriaDTO> porCategoria() {
         return service.porCategoria();
+    }
+
+    @GET
+    @Path("relatorios/orgaos")
+    public List<RelatorioOrgaoDTO> porOrgao() {
+        return service.porOrgao();
     }
 
     @GET

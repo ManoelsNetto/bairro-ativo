@@ -10,9 +10,9 @@ function porcentagem(parte, total) {
 
 async function carregarRelatorios() {
   try {
-    const [resumo, bairros, categorias, ranking, engajamento] = await Promise.all([
+    const [resumo, bairros, categorias, ranking, engajamento, orgaos] = await Promise.all([
       api('/relatorios/resumo'), api('/relatorios/bairros'), api('/relatorios/categorias'),
-      api('/ocorrencias/ranking?limite=10'), api('/relatorios/engajamento?limite=8')]);
+      api('/ocorrencias/ranking?limite=10'), api('/relatorios/engajamento?limite=8'), api('/relatorios/orgaos')]);
 
     document.getElementById('indicadores').innerHTML = [
       ['Ocorrências', resumo.total, ''],
@@ -40,10 +40,18 @@ async function carregarRelatorios() {
     }).join('');
 
     document.getElementById('tabela-categorias').innerHTML = categorias.map((c) => '<tr>'
-      + celula('Categoria', esc(c.categoria)) + celula('Prazo', dias(c.prazoDias), true)
+      + celula('Categoria', esc(c.categoria)) + celula('Órgão', esc(c.orgao)) + celula('Prazo', dias(c.prazoDias), true)
       + celula('Total', c.total, true) + celula('Pendentes', c.pendentes, true)
       + celula('Fora do prazo', c.atrasadas ? '<span class="etiqueta etiqueta--atraso">' + c.atrasadas + '</span>' : '0', true)
       + celula('Resolvidas no prazo', c.resolvidas ? c.resolvidasNoPrazo + ' de ' + c.resolvidas : '—', true)
+      + '</tr>').join('');
+
+    document.getElementById('tabela-orgaos').innerHTML = orgaos.map((g) => '<tr>'
+      + celula('Órgão', '<strong>' + esc(g.orgao) + '</strong> (' + esc(g.sigla) + ')')
+      + celula('Pendentes', g.pendentes, true)
+      + celula('Fora do prazo', g.atrasadas ? '<span class="etiqueta etiqueta--atraso">' + g.atrasadas + '</span>' : '0', true)
+      + celula('Resolvidas', g.resolvidas, true)
+      + celula('Tempo médio', g.diasMediosResolucao != null ? g.diasMediosResolucao.toLocaleString('pt-BR') + ' dias' : '—', true)
       + '</tr>').join('');
 
     document.getElementById('tabela-ranking').innerHTML = ranking.length ? ranking.map((o) => '<tr>'
