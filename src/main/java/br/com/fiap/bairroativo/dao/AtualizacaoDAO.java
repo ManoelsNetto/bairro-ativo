@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Histórico de atendimento (BA_ATUALIZACAO). */
 public class AtualizacaoDAO {
 
     private final ConnectionFactory conexoes;

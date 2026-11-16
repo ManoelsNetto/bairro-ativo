@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-/** Lê variáveis de ambiente ou, em desenvolvimento, o arquivo .env. */
 public final class Config {
 
     private static final Properties ARQUIVO_ENV = carregarEnv(Path.of(".env"));

@@ -36,9 +36,6 @@ public class OcorrenciaResource {
         this.service = service;
     }
 
-    /* ---------- Consultas públicas ---------- */
-
-    /** GET /api/ocorrencias?status=ABERTA&bairro=1&categoria=2&q=buraco (todos opcionais) */
     @GET
     public List<Ocorrencia> listar(@QueryParam("status") String status, @QueryParam("bairro") Long bairro,
                                    @QueryParam("categoria") Long categoria, @QueryParam("q") String texto) {
@@ -59,8 +56,6 @@ public class OcorrenciaResource {
                                          @HeaderParam(Identidade.USUARIO) String u, @PathParam("id") long id) {
         return service.detalhar(id, Identidade.ler(perfil, u));
     }
-
-    /* ---------- Cidadão ---------- */
 
     @GET
     @Path("minhas")
@@ -99,7 +94,6 @@ public class OcorrenciaResource {
         return Response.noContent().build();
     }
 
-    /** O cidadão conectado apoia ("isso também me afeta"). */
     @POST
     @Path("{id}/apoio")
     public Response apoiar(@HeaderParam(Identidade.PERFIL) String perfil,
@@ -114,8 +108,6 @@ public class OcorrenciaResource {
                                    @HeaderParam(Identidade.USUARIO) String u, @PathParam("id") long id) {
         return service.removerApoio(Identidade.ler(perfil, u), id);
     }
-
-    /* ---------- Servidor público ---------- */
 
     @GET
     @Path("fila")

@@ -5,7 +5,6 @@ import br.com.fiap.bairroativo.exception.ValidacaoException;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-/** Validações de entrada reaproveitadas pelos services. Todas lançam {@link ValidacaoException} com texto claro. */
 public final class Validador {
 
     private static final Pattern EMAIL = Pattern.compile("^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$");
@@ -14,7 +13,6 @@ public final class Validador {
     private Validador() {
     }
 
-    /** Campo obrigatório: remove espaços das pontas e confere o tamanho. */
     public static String texto(String valor, String campo, int minimo, int maximo) {
         String limpo = valor == null ? "" : valor.trim();
         if (limpo.isEmpty()) {
@@ -29,7 +27,6 @@ public final class Validador {
         return limpo;
     }
 
-    /** Campo opcional: vazio vira null. */
     public static String textoOpcional(String valor, String campo, int maximo) {
         if (valor == null || valor.isBlank()) {
             return null;

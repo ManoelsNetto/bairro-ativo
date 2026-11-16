@@ -21,7 +21,6 @@ import java.util.Optional;
 
 public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
 
-    /** Já traz bairro, categoria, autor e a contagem de apoios em uma única consulta. */
     private static final String SELECT = """
             SELECT o.ID_OCORRENCIA, o.TITULO, o.DESCRICAO, o.ENDERECO, o.REFERENCIA, o.STATUS,
                    o.DT_ABERTURA, o.DT_RESOLUCAO,
@@ -70,7 +69,6 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
         return listar(FiltroOcorrencia.simples(null, null, null, null));
     }
 
-    /** Listagem com filtros opcionais; a ordem padrão é das mais recentes para as mais antigas. */
     public List<Ocorrencia> listar(FiltroOcorrencia filtro) {
         StringBuilder sql = new StringBuilder(SELECT).append(" WHERE 1 = 1");
         List<Object> parametros = new ArrayList<>();
@@ -141,7 +139,6 @@ public class OcorrenciaDAO implements CrudDAO<Ocorrencia> {
         }
     }
 
-    /** Atualiza os dados descritivos. Status e autor só mudam pelo fluxo de atendimento. */
     @Override
     public boolean atualizar(Ocorrencia ocorrencia) {
         String sql = "UPDATE BA_OCORRENCIA SET TITULO = ?, DESCRICAO = ?, ENDERECO = ?, REFERENCIA = ?, "

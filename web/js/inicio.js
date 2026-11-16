@@ -1,5 +1,3 @@
-/* Página inicial: números gerais e prioridades do momento */
-
 async function carregarInicio() {
   try {
     const [resumo, ranking] = await Promise.all([api('/relatorios/resumo'), api('/ocorrencias/ranking?limite=6')]);

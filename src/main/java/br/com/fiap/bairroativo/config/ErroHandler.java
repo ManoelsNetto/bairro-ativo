@@ -13,10 +13,6 @@ import org.glassfish.jersey.server.ParamException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Converte qualquer exceção em uma resposta JSON com mensagem clara para a tela.
- * Nenhum erro derruba o servidor: o pior caso é um 500 com mensagem genérica (o detalhe vai para o log).
- */
 public class ErroHandler implements ExceptionMapper<Throwable> {
 
     private static final Logger log = Logger.getLogger(ErroHandler.class.getName());

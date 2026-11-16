@@ -1,6 +1,3 @@
-/* Gestão de cadastros (só servidores): bairros, órgãos, categorias, servidores e lista de cidadãos.
-   Os quatro primeiros usam o mesmo CRUD genérico. */
-
 const sessao = exigirPerfil('SERVIDOR');
 
 function crudSimples({ form, lista, mensagem, caminho, nome, regras, montarCorpo, preencher, linha, aoMudar }) {
@@ -79,7 +76,6 @@ function botoesAcao(id) {
     + '</div></td>';
 }
 
-/* Os selects de órgão (em categorias e servidores) acompanham o cadastro de órgãos */
 function atualizarSelectsDeOrgao(orgaos) {
   ['categoria-orgao', 'servidor-orgao'].forEach((id) => {
     const select = document.getElementById(id);

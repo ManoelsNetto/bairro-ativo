@@ -43,7 +43,6 @@ public class ServidorService {
         return buscar(id);
     }
 
-    /** O servidor conectado não pode excluir o próprio cadastro (perderia o acesso no meio da sessão). */
     public void excluir(long id, ServidorPublico quemExclui) {
         if (quemExclui.getId() == id) {
             throw new RegraNegocioException("Você não pode excluir o próprio cadastro enquanto está conectado.");

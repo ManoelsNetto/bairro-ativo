@@ -1,6 +1,3 @@
-/* Área do cidadão: registrar/editar ocorrências, meu cadastro, minhas ocorrências e as que apoio.
-   O autor é sempre o cidadão conectado. */
-
 const sessao = exigirPerfil('CIDADAO');
 const form = document.getElementById('form-ocorrencia');
 const formCadastro = document.getElementById('form-cadastro');
@@ -24,8 +21,6 @@ const regrasCadastro = {
 };
 validacaoAoDigitar(form, regras);
 validacaoAoDigitar(formCadastro, regrasCadastro);
-
-/* ---------- Registrar / editar ocorrência ---------- */
 
 function mostrarOrgaoDaCategoria() {
   const c = categorias.find((x) => String(x.id) === form.elements.idCategoria.value);
@@ -91,8 +86,6 @@ document.getElementById('botao-cancelar').addEventListener('click', () => {
   modoFormulario(null);
 });
 
-/* ---------- Minhas ocorrências / que apoio ---------- */
-
 async function excluirOcorrencia(id) {
   const o = minhas.find((x) => x.id === id);
   if (!confirm('Excluir a ocorrência "' + o.titulo + '"?')) return;
@@ -140,8 +133,6 @@ document.getElementById('lista-minhas').addEventListener('click', (ev) => {
   if (excluir) excluirOcorrencia(Number(excluir.dataset.excluir));
 });
 
-/* ---------- Meu cadastro ---------- */
-
 function preencherCadastro() {
   formCadastro.elements.nome.value = eu.nome;
   formCadastro.elements.email.value = eu.email;
@@ -185,8 +176,6 @@ document.getElementById('botao-excluir-conta').addEventListener('click', async (
     mostrarMensagem('mensagem-cadastro', e.message, 'erro');
   }
 });
-
-/* ---------- Início ---------- */
 
 async function iniciar() {
   if (!sessao) return;

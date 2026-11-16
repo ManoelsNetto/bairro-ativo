@@ -6,10 +6,6 @@ import br.com.fiap.bairroativo.model.TipoUsuario;
 
 import java.util.Locale;
 
-/**
- * Lê quem está usando a plataforma a partir dos cabeçalhos que o front envia depois de "Entrar":
- * X-Perfil (CIDADAO ou SERVIDOR) e X-Usuario (id). Sem cabeçalhos = visitante.
- */
 public final class Identidade {
 
     public static final String PERFIL = "X-Perfil";

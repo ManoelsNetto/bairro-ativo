@@ -2,10 +2,6 @@ package br.com.fiap.bairroativo.model;
 
 import java.time.LocalDateTime;
 
-/**
- * Pessoa que usa a plataforma. Cidadão e servidor público herdam os dados comuns
- * e cada um define, de forma polimórfica, o que pode fazer com uma ocorrência.
- */
 public abstract class Usuario {
 
     private Long id;
@@ -27,13 +23,10 @@ public abstract class Usuario {
 
     public abstract TipoUsuario getTipo();
 
-    /** Texto curto que aparece no topo da tela, ex.: "Cidadã(o) · Vila Mariana". */
     public abstract String getDescricaoPerfil();
 
-    /** Pode corrigir ou excluir a ocorrência? */
     public abstract boolean podeEditar(Ocorrencia ocorrencia);
 
-    /** Pode mudar o status da ocorrência? */
     public abstract boolean podeAtender(Ocorrencia ocorrencia);
 
     public Long getId() {

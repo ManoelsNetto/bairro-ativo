@@ -1,8 +1,3 @@
-/* Detalhe da ocorrência: o que aparece depende de quem está usando
-   - visitante: só consulta
-   - cidadão: apoia (ou retira o apoio); quem registrou pode editar/excluir enquanto Aberta
-   - servidor do órgão responsável: atualiza o status */
-
 const idOcorrencia = Number(parametroUrl('id'));
 const formAtualizacao = document.getElementById('form-atualizacao');
 const sessao = sessaoAtual();
@@ -74,7 +69,6 @@ function renderizar() {
       + ' · ' + formatarData(a.data) + '</small></span></li>').join('')
     : '<li>Ninguém apoiou ainda.</li>';
 
-  // Autor: editar/excluir
   const areaAutor = document.getElementById('area-autor');
   const ehAutor = sessao && sessao.perfil === 'CIDADAO' && o.autor.id === sessao.id;
   const podeExcluir = ehAutor && (o.status === 'ABERTA' || o.status === 'CANCELADA');
@@ -86,7 +80,6 @@ function renderizar() {
     areaAutor.querySelector('.dica').textContent = 'Ela já está em atendimento, então não pode mais ser alterada. Acompanhe pelo histórico.';
   }
 
-  // Servidor: atendimento
   const secaoAtendimento = document.getElementById('secao-atendimento');
   const ehServidor = sessao && sessao.perfil === 'SERVIDOR';
   secaoAtendimento.classList.toggle('oculto', !ehServidor || !o.pendente);

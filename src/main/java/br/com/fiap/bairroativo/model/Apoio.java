@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
-/** Associação N:N entre cidadão e ocorrência: "isso também me afeta". */
 public class Apoio {
 
     private Cidadao cidadao;

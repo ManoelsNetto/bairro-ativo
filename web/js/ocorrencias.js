@@ -1,5 +1,3 @@
-/* Ocorrências: consulta pública com filtros */
-
 const filtros = document.getElementById('form-filtros');
 
 async function carregarLista() {

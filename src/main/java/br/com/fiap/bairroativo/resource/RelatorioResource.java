@@ -57,7 +57,6 @@ public class RelatorioResource {
         return service.engajamento(limite);
     }
 
-    /** Saúde da aplicação: GET /api/status */
     @GET
     @Path("status")
     public Response status() {

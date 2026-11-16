@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-/**
- * Problema do espaço público registrado por um cidadão.
- * A prioridade cresce com os apoios da vizinhança, o tempo em aberto e o atraso em relação ao prazo da categoria.
- */
 public class Ocorrencia implements Priorizavel {
 
     public static final int PONTOS_POR_APOIO = 3;
@@ -123,7 +119,6 @@ public class Ocorrencia implements Priorizavel {
         this.categoria = categoria;
     }
 
-    /** Na resposta pública só aparecem id e nome do autor (dados de contato ficam protegidos). */
     @JsonIgnoreProperties({"email", "telefone", "bairro", "dataCadastro", "descricaoPerfil"})
     public Cidadao getAutor() {
         return autor;

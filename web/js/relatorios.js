@@ -1,5 +1,3 @@
-/* Relatórios: consultas SQL com JOIN e agregação expostas pela API */
-
 function celula(rotulo, valor, numero) {
   return '<td data-rotulo="' + rotulo + '"' + (numero ? ' class="numero"' : '') + '>' + valor + '</td>';
 }

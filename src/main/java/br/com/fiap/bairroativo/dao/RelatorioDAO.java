@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Consultas de relatório com JOIN e agregação (COUNT, SUM, AVG, GROUP BY). */
 public class RelatorioDAO {
 
     private static final String PENDENTE = "o.STATUS IN ('ABERTA', 'EM_ANALISE', 'EM_ANDAMENTO')";
@@ -145,7 +144,6 @@ public class RelatorioDAO {
         }
     }
 
-    /** Fila de cada órgão: pendências, atrasos e tempo médio de resolução. */
     public List<RelatorioOrgaoDTO> porOrgao() {
         String sql = """
                 SELECT g.ID_ORGAO, g.NOME, g.SIGLA,
@@ -177,7 +175,6 @@ public class RelatorioDAO {
         }
     }
 
-    /** Usado pelo endpoint de status para conferir se o banco responde. */
     public boolean bancoDisponivel() {
         try (Connection conn = conexoes.getConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM DUAL");

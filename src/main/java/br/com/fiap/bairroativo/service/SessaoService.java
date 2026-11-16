@@ -17,11 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Identifica quem está usando a plataforma.
- * MVP: a entrada é de demonstração, só com o e-mail cadastrado (sem senha).
- * Numa versão real a identificação viria do gov.br.
- */
 public class SessaoService {
 
     private static final int EXEMPLOS_CIDADAOS = 4;
@@ -45,7 +40,6 @@ public class SessaoService {
                 : "Não encontramos um servidor com este e-mail."));
     }
 
-    /** Usuário da sessão, se houver (visitantes podem consultar sem entrar). */
     public Optional<Usuario> usuario(Sessao sessao) {
         if (sessao == null) {
             return Optional.empty();
@@ -77,7 +71,6 @@ public class SessaoService {
         return servidor;
     }
 
-    /** Contas da carga inicial para testar os dois perfis na demonstração. */
     public List<ContaExemploDTO> exemplos() {
         List<ContaExemploDTO> contas = new ArrayList<>();
         cidadaoDAO.listar().stream()

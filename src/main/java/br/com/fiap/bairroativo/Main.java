@@ -43,11 +43,6 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Sobe o servidor Grizzly com:
- *  - a API REST (Jersey) em http://localhost:8080/api
- *  - as páginas web (pasta web/) em http://localhost:8080/
- */
 public class Main {
 
     private static final Logger log = Logger.getLogger(Main.class.getName());
@@ -76,7 +71,6 @@ public class Main {
         Thread.currentThread().join();
     }
 
-    /** Monta as camadas: DAO -> Service -> Resource. */
     static ResourceConfig configurar(ConnectionFactory conexoes) {
         BairroDAO bairroDAO = new BairroDAO(conexoes);
         OrgaoDAO orgaoDAO = new OrgaoDAO(conexoes);

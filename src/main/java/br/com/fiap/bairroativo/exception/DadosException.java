@@ -2,10 +2,6 @@ package br.com.fiap.bairroativo.exception;
 
 import java.sql.SQLException;
 
-/**
- * Falha ao acessar o banco. O construtor {@link #de(String, SQLException)} traduz os códigos de erro do Oracle
- * em mensagens claras; violações de restrição viram {@link RegraNegocioException}.
- */
 public class DadosException extends AppException {
 
     private final int statusHttp;
@@ -28,7 +24,7 @@ public class DadosException extends AppException {
             case 2290 -> new RegraNegocioException("Valor fora das opções permitidas.");
             case 1400 -> new RegraNegocioException("Preencha todos os campos obrigatórios.");
             case 12899 -> new RegraNegocioException("Um dos campos passou do tamanho máximo permitido.");
-            case 1017, 17002, 17008, 12514, 12541 -> new DadosException(
+            case 1017, 28000, 17002, 17008, 12514, 12541 -> new DadosException(
                     "Banco de dados indisponível no momento. Tente novamente em instantes.", e, 503);
             default -> new DadosException("Erro ao " + operacao + ". Tente novamente.", e, 500);
         };

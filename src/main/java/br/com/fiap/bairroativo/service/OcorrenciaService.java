@@ -29,11 +29,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Regras do ciclo de vida de uma ocorrência.
- * O cidadão registra, corrige e apoia; o servidor do órgão responsável atende.
- * Quem faz cada ação é sempre o usuário da sessão, nunca um id escolhido no formulário.
- */
 public class OcorrenciaService {
 
     private static final Comparator<Ocorrencia> POR_PRIORIDADE =
@@ -57,8 +52,6 @@ public class OcorrenciaService {
         this.sessoes = sessoes;
     }
 
-    /* ---------- Consultas públicas ---------- */
-
     public List<Ocorrencia> listar(FiltroOcorrencia filtro) {
         return dao.listar(filtro);
     }
@@ -67,7 +60,6 @@ public class OcorrenciaService {
         return dao.buscarPorId(id).orElseThrow(() -> new NaoEncontradoException("Ocorrência não encontrada."));
     }
 
-    /** Detalhe com o que o usuário atual pode fazer (visitante só consulta). */
     public OcorrenciaDetalheDTO detalhar(long id, Sessao sessao) {
         Ocorrencia ocorrencia = buscar(id);
         List<Apoio> apoios = apoioDAO.listarPorOcorrencia(id);
@@ -89,8 +81,6 @@ public class OcorrenciaService {
         validarLimite(limite);
         return dao.listar(FiltroOcorrencia.pendentes()).stream().sorted(POR_PRIORIDADE).limit(limite).toList();
     }
-
-    /* ---------- Área do cidadão ---------- */
 
     public List<Ocorrencia> minhas(Sessao sessao) {
         Cidadao cidadao = sessoes.exigirCidadao(sessao, "ver suas ocorrências");
@@ -126,7 +116,6 @@ public class OcorrenciaService {
         return buscar(id);
     }
 
-    /** Em atendimento ou resolvida, a ocorrência fica no histórico; só abertas ou canceladas podem ser excluídas. */
     public void excluir(Sessao sessao, long id) {
         Cidadao cidadao = sessoes.exigirCidadao(sessao, "excluir uma ocorrência");
         Ocorrencia atual = buscar(id);
@@ -161,9 +150,6 @@ public class OcorrenciaService {
         return buscar(idOcorrencia);
     }
 
-    /* ---------- Área do servidor ---------- */
-
-    /** Pendências das categorias do órgão do servidor, da mais urgente para a menos urgente. */
     public List<Ocorrencia> fila(Sessao sessao) {
         ServidorPublico servidor = sessoes.exigirServidor(sessao, "ver a fila de atendimento");
         return dao.listar(FiltroOcorrencia.pendentesDoOrgao(servidor.getOrgao().getId())).stream()
@@ -200,8 +186,6 @@ public class OcorrenciaService {
         return atualizacaoDAO.registrar(atualizacao, resolucao);
     }
 
-    /* ---------- Apoio interno ---------- */
-
     private void exigirAutor(Cidadao cidadao, Ocorrencia ocorrencia, String acao) {
         if (!ocorrencia.getAutor().getId().equals(cidadao.getId())) {
             throw new SemPermissaoException("Só quem registrou a ocorrência pode " + acao + ".");
@@ -214,7 +198,6 @@ public class OcorrenciaService {
         }
     }
 
-    /** Valida os campos comuns de cadastro e edição. */
     private Ocorrencia montar(OcorrenciaRequest req) {
         Ocorrencia o = new Ocorrencia();
         o.setTitulo(Validador.texto(req.titulo(), "o título", 5, 100));

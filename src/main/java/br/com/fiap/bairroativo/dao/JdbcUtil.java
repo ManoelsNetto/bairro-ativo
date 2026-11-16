@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDateTime;
 
-/** Conversões repetidas entre tipos Java e colunas JDBC. */
 final class JdbcUtil {
 
     private JdbcUtil() {
@@ -44,7 +43,6 @@ final class JdbcUtil {
         }
     }
 
-    /** Lê o id gerado pela coluna IDENTITY depois de um INSERT. */
     static long idGerado(PreparedStatement ps) throws SQLException {
         try (ResultSet chaves = ps.getGeneratedKeys()) {
             if (!chaves.next()) {

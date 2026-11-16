@@ -1,6 +1,5 @@
 package br.com.fiap.bairroativo.model;
 
-/** Órgão público responsável por atender um conjunto de categorias (ex.: Iluminação Pública). */
 public class Orgao {
 
     private Long id;

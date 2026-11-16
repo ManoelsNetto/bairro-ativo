@@ -3,10 +3,6 @@ package br.com.fiap.bairroativo.model;
 import java.util.EnumSet;
 import java.util.Set;
 
-/**
- * Ciclo de vida de uma ocorrência. Cada status conhece para quais outros pode avançar:
- * ABERTA -> EM_ANALISE -> EM_ANDAMENTO -> RESOLVIDA, e qualquer status pendente pode ser CANCELADA.
- */
 public enum StatusOcorrencia {
     ABERTA("Aberta"),
     EM_ANALISE("Em análise"),

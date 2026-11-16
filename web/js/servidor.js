@@ -1,5 +1,3 @@
-/* Área do servidor: indicadores e fila de atendimento do órgão do servidor conectado */
-
 const sessao = exigirPerfil('SERVIDOR');
 
 async function iniciar() {

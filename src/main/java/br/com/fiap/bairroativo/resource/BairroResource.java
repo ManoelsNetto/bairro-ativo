@@ -17,7 +17,6 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-/** Consulta pública; cadastrar, alterar e excluir é tarefa do servidor público (gestão). */
 @Path("bairros")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

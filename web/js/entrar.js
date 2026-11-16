@@ -1,5 +1,3 @@
-/* Entrar: escolha do perfil (cidadão ou servidor) com contas de exemplo */
-
 const destinoVolta = parametroUrl('volta');
 const perfilPedido = parametroUrl('perfil');
 
@@ -44,8 +42,6 @@ document.getElementById('exemplo-servidor').addEventListener('click', (ev) =>
   comBotaoOcupado(ev.currentTarget, 'Entrando…',
     () => entrar('SERVIDOR', 'beatriz.nogueira@prefeitura.sp.gov.br', 'mensagem-servidor')));
 
-/* ---------- Criar conta de cidadão ---------- */
-
 const formCadastro = document.getElementById('form-cadastro');
 const botaoCriar = document.getElementById('botao-criar-conta');
 const regrasCadastro = {
@@ -82,8 +78,6 @@ formCadastro.addEventListener('submit', async (ev) => {
     mostrarMensagem('mensagem-cadastro', e.message, 'erro');
   }
 });
-
-/* ---------- Contas de exemplo ---------- */
 
 function botaoConta(conta) {
   return '<li><button type="button" data-perfil="' + conta.perfil + '" data-email="' + esc(conta.email) + '">'

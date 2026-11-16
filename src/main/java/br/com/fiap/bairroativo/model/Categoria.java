@@ -1,6 +1,5 @@
 package br.com.fiap.bairroativo.model;
 
-/** Tipo de problema, com prazo esperado de atendimento e o órgão que cuida dele. */
 public class Categoria {
 
     private Long id;

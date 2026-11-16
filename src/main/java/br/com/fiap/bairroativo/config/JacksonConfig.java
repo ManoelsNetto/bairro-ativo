@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.ws.rs.ext.ContextResolver;
 
-/** Datas no formato ISO e campos desconhecidos do JSON ignorados. */
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
 
     private final ObjectMapper mapper = new ObjectMapper()

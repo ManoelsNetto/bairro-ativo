@@ -25,13 +25,11 @@ public class SessaoResource {
         this.service = service;
     }
 
-    /** Entrar (demonstração): { "perfil": "CIDADAO", "email": "ana.souza@email.com" } */
     @POST
     public Usuario entrar(EntrarRequest req) {
         return service.entrar(req);
     }
 
-    /** Quem está conectado (confere se a sessão guardada no navegador ainda vale). */
     @GET
     public Usuario atual(@HeaderParam(Identidade.PERFIL) String perfil, @HeaderParam(Identidade.USUARIO) String id) {
         return service.exigirUsuario(Identidade.ler(perfil, id));

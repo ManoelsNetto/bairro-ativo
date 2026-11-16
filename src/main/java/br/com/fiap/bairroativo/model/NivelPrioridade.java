@@ -1,6 +1,5 @@
 package br.com.fiap.bairroativo.model;
 
-/** Faixas de prioridade calculadas a partir da pontuação de uma ocorrência. */
 public enum NivelPrioridade {
     BAIXA, MEDIA, ALTA;
 

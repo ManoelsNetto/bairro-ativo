@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Tabela associativa BA_APOIO (N:N entre cidadão e ocorrência). */
 public class ApoioDAO {
 
     private final ConnectionFactory conexoes;

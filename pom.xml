@@ -30,7 +30,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Servidor HTTP (Grizzly) + JAX-RS (Jersey) -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-grizzly2-http</artifactId>
@@ -49,7 +48,6 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
-		<!-- Banco Oracle via JDBC -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc11</artifactId>
@@ -65,7 +63,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.0</version>
 			</plugin>
-			<!-- Gera um único jar executável com todas as dependências -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>

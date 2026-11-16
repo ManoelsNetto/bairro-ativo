@@ -2,7 +2,6 @@ package br.com.fiap.bairroativo.dto;
 
 import br.com.fiap.bairroativo.model.StatusOcorrencia;
 
-/** Filtros opcionais da listagem de ocorrências (null = sem filtro). */
 public record FiltroOcorrencia(StatusOcorrencia status, Long idBairro, Long idCategoria, String texto,
                                boolean somentePendentes, Long idAutor, Long idApoiador, Long idOrgao) {
 

@@ -22,10 +22,6 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-/**
- * Cadastro do cidadão. Qualquer pessoa cria a própria conta; cada cidadão só altera ou exclui a sua.
- * A lista completa (com contatos) é restrita aos servidores públicos.
- */
 @Path("cidadaos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -57,7 +53,6 @@ public class CidadaoResource {
         return service.buscar(id);
     }
 
-    /** Criar conta: aberto a qualquer pessoa. */
     @POST
     public Response cadastrar(CidadaoRequest req) {
         return Response.status(Response.Status.CREATED).entity(service.cadastrar(req)).build();

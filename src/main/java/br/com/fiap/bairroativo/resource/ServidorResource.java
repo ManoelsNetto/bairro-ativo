@@ -18,7 +18,6 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-/** Equipe da prefeitura: só servidores públicos consultam e gerenciam. */
 @Path("servidores")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

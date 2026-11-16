@@ -2,7 +2,6 @@ package br.com.fiap.bairroativo.model;
 
 import java.time.LocalDateTime;
 
-/** Servidor da prefeitura. Atende as ocorrências das categorias do seu órgão. */
 public class ServidorPublico extends Usuario {
 
     private String matricula;
@@ -35,7 +34,6 @@ public class ServidorPublico extends Usuario {
         return false;
     }
 
-    /** Atende se a ocorrência ainda está pendente e a categoria é do seu órgão. */
     @Override
     public boolean podeAtender(Ocorrencia ocorrencia) {
         return ocorrencia.isPendente() && orgao != null && ocorrencia.getCategoria() != null

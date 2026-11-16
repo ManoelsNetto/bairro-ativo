@@ -1,7 +1,3 @@
-/* =========================================================
-   Bairro Ativo - funções usadas por todas as páginas
-   ========================================================= */
-
 const API = '/api';
 
 const STATUS = {
@@ -15,10 +11,6 @@ const STATUS = {
 const PRIORIDADE = { ALTA: 'Prioridade alta', MEDIA: 'Prioridade média', BAIXA: 'Prioridade baixa' };
 
 const ZONAS = { CENTRO: 'Centro', NORTE: 'Norte', SUL: 'Sul', LESTE: 'Leste', OESTE: 'Oeste' };
-
-/* ---------- Sessão (quem está usando a plataforma) ----------
-   Guardada no navegador depois de "Entrar". Cada requisição envia o perfil e o id
-   nos cabeçalhos X-Perfil e X-Usuario; o backend confere as permissões. */
 
 const CHAVE_SESSAO = 'bairroAtivo.sessao';
 
@@ -46,7 +38,6 @@ function encerrarSessao() {
   try {
     localStorage.removeItem(CHAVE_SESSAO);
   } catch (e) {
-    /* ignora */
   }
   window._sessaoMemoria = null;
 }
@@ -55,7 +46,6 @@ function sessaoAtual() {
   return obterSessao() || window._sessaoMemoria || null;
 }
 
-/** Usado pelas áreas restritas: sem o perfil certo, manda para a tela Entrar e volta depois. */
 function exigirPerfil(perfil) {
   const sessao = sessaoAtual();
   if (!sessao || sessao.perfil !== perfil) {
@@ -66,10 +56,6 @@ function exigirPerfil(perfil) {
   return sessao;
 }
 
-/**
- * Chama a API e devolve o JSON. Em caso de erro lança Error com a mensagem
- * vinda do backend (ou uma mensagem amigável se o servidor não responder).
- */
 async function api(caminho, { metodo = 'GET', corpo } = {}) {
   let resposta;
   try {
@@ -103,8 +89,6 @@ async function api(caminho, { metodo = 'GET', corpo } = {}) {
   return dados;
 }
 
-/* ---------- Mensagens na página ---------- */
-
 function mostrarMensagem(elemento, texto, tipo = 'sucesso') {
   const alvo = typeof elemento === 'string' ? document.getElementById(elemento) : elemento;
   if (!alvo) return;
@@ -121,8 +105,6 @@ function limparMensagem(elemento) {
   const alvo = typeof elemento === 'string' ? document.getElementById(elemento) : elemento;
   if (alvo) alvo.textContent = '';
 }
-
-/* ---------- Validação de formulários ---------- */
 
 const Regras = {
   obrigatorio: (rotulo) => (v) => (v.trim() === '' ? 'Informe ' + rotulo + '.' : null),
@@ -144,10 +126,6 @@ const Regras = {
   }
 };
 
-/**
- * Valida os campos do formulário conforme as regras ({ nomeDoCampo: [regra, ...] }).
- * Mostra a mensagem abaixo de cada campo e foca o primeiro inválido. Retorna true se tudo ok.
- */
 function validarFormulario(form, regras) {
   let primeiroInvalido = null;
   Object.entries(regras).forEach(([nome, lista]) => {
@@ -189,7 +167,6 @@ function limparErros(form) {
   form.querySelectorAll('.erro-campo').forEach((e) => { e.textContent = ''; });
 }
 
-/** Limpa o erro do campo assim que o usuário corrige. */
 function validacaoAoDigitar(form, regras) {
   form.addEventListener('input', (ev) => {
     const lista = regras[ev.target.name];
@@ -198,8 +175,6 @@ function validacaoAoDigitar(form, regras) {
     marcarErro(ev.target, erro || null);
   });
 }
-
-/* ---------- Formatação ---------- */
 
 function esc(texto) {
   return String(texto ?? '').replace(/[&<>"']/g, (c) => (
@@ -237,7 +212,6 @@ function parametroUrl(nome) {
   return new URLSearchParams(window.location.search).get(nome);
 }
 
-/** Desabilita o botão de envio enquanto a requisição está em andamento. */
 async function comBotaoOcupado(botao, textoOcupado, acao) {
   const original = botao.textContent;
   botao.disabled = true;
@@ -249,8 +223,6 @@ async function comBotaoOcupado(botao, textoOcupado, acao) {
     botao.textContent = original;
   }
 }
-
-/* ---------- Topo: menu (igual em todas as páginas) e perfil conectado ---------- */
 
 function iniciais(nome) {
   const partes = String(nome || '?').trim().split(/\s+/);
@@ -307,8 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-/* ---------- Cartão de ocorrência (listas) ---------- */
 
 function cartaoOcorrencia(o, acoesExtras = '') {
   return '<li class="ocorrencia">'
